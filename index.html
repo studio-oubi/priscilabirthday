@@ -3,148 +3,311 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Para Priscila Mabel ❀ Un jardín para ti</title>
+<title>Para Priscila Mabel ✿ Un jardín de medianoche</title>
 <meta name="description" content="Una carta-jardín para ti, en tu día.">
-<meta name="theme-color" content="#fdf9f2">
+<meta name="theme-color" content="#100a18">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Pinyon+Script&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
 <style>
 :root{
-  --paper:#fdf9f2;
-  --paper-deep:#f7efe2;
-  --ink:#4a3a40;
-  --ink-soft:#7a6470;
-  --rose:#d98a9e;
-  --rose-deep:#b95f7c;
-  --rose-pale:#f3cdd6;
-  --lav:#a48bc4;
-  --lav-pale:#ddd2ec;
-  --sage:#8fae8b;
-  --sage-pale:#d3e2cf;
-  --gold:#cf9f4d;
-  --gold-pale:#ecd9b0;
-  --peach:#f0bfa0;
+  --night-1:#0d0814;
+  --night-2:#191024;
+  --night-3:#241531;
+  --text:#ece0e6;
+  --text-soft:#b9a6b4;
+  --rose:#f5a8c5;
+  --rose-deep:#e87fa8;
+  --rose-glow:rgba(245,168,197,.55);
+  --lav:#c9aef5;
+  --lav-glow:rgba(201,174,245,.5);
+  --gold:#f0cc8b;
+  --gold-deep:#d9ab5d;
+  --gold-glow:rgba(240,204,139,.5);
+  --leaf:#7ed4a0;
+  --leaf-deep:#2e7d5b;
+  --leaf-glow:rgba(126,212,160,.45);
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth}
 body{
   font-family:'EB Garamond',serif;
-  background:var(--paper);
-  color:var(--ink);
+  background:linear-gradient(180deg,var(--night-1) 0%,var(--night-2) 45%,var(--night-3) 100%);
+  color:var(--text);
   font-size:1.22rem;
-  line-height:1.8;
+  line-height:1.82;
   overflow-x:hidden;
 }
 body.locked{overflow:hidden;height:100dvh}
-::selection{background:var(--rose-pale);color:var(--rose-deep)}
+::selection{background:rgba(245,168,197,.3);color:#fff}
+body.not-bloomed .gscene *{animation-play-state:paused!important}
 
-/* ═══════════ WATERCOLOR ATMOSPHERE ═══════════ */
-#washes{position:fixed;inset:-12%;z-index:0;pointer-events:none;filter:url(#wc)}
-.wash{
-  position:absolute;border-radius:50%;
-  opacity:.5;mix-blend-mode:multiply;
-  animation:washDrift ease-in-out infinite alternate;
+/* ═══════════ NIGHT SKY ═══════════ */
+#sky{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+#moon{
+  position:absolute;top:7vh;right:10vw;width:88px;height:88px;border-radius:50%;
+  background:radial-gradient(circle at 38% 36%,#fff7e8,#f3ddb4 58%,#e3c187);
+  box-shadow:0 0 40px 12px rgba(243,221,180,.35),0 0 140px 50px rgba(243,221,180,.12);
+  animation:moonGlow 7s ease-in-out infinite alternate;
 }
-@keyframes washDrift{
-  from{transform:translate(0,0) scale(1)}
-  to{transform:translate(4%,3%) scale(1.07)}
+@keyframes moonGlow{
+  from{box-shadow:0 0 40px 12px rgba(243,221,180,.35),0 0 140px 50px rgba(243,221,180,.12)}
+  to{box-shadow:0 0 55px 18px rgba(243,221,180,.45),0 0 170px 65px rgba(243,221,180,.16)}
 }
-#grain{
-  position:fixed;inset:0;z-index:60;pointer-events:none;opacity:.5;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0.45 0 0 0 0 0.35 0 0 0 0 0.3 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E");
+.star{position:absolute;border-radius:50%;background:#fff;animation:twinkle ease-in-out infinite alternate}
+@keyframes twinkle{from{opacity:.15;transform:scale(.8)}to{opacity:.95;transform:scale(1.15)}}
+#mist{
+  position:fixed;left:0;right:0;bottom:0;height:42vh;z-index:1;pointer-events:none;
+  background:linear-gradient(to top,rgba(245,168,197,.07),rgba(201,174,245,.04) 50%,transparent);
 }
 
-/* ambient falling petals */
-.amb-petal{
-  position:fixed;top:-6vh;z-index:4;pointer-events:none;
-  border-radius:150% 0 150% 0;
-  animation:petalFall linear forwards;
+/* fireflies */
+.firefly{
+  position:fixed;bottom:-3vh;z-index:6;pointer-events:none;
+  width:5px;height:5px;border-radius:50%;
+  background:#ffe9a8;
+  box-shadow:0 0 8px 3px rgba(255,233,168,.75),0 0 22px 8px rgba(255,233,168,.25);
   opacity:0;
+  animation:rise linear forwards;
 }
-@keyframes petalFall{
-  0%{transform:translate(0,0) rotate(0deg);opacity:0}
-  6%{opacity:.75}
-  88%{opacity:.6}
-  100%{transform:translate(var(--sway),106vh) rotate(var(--spin));opacity:0}
+.firefly.pink{background:#ffc7dd;box-shadow:0 0 8px 3px rgba(255,199,221,.75),0 0 22px 8px rgba(255,199,221,.25)}
+@keyframes rise{
+  0%{transform:translate(0,0);opacity:0}
+  10%{opacity:1}
+  50%{transform:translate(var(--dx1),-45vh);opacity:.85}
+  90%{opacity:.5}
+  100%{transform:translate(var(--dx2),-95vh);opacity:0}
 }
 
-/* ═══════════ PROGRESS VINE ═══════════ */
+/* ═══════════ PROGRESS ═══════════ */
 #progressTrack{
-  position:fixed;top:0;left:0;width:100%;height:4px;z-index:90;
-  background:linear-gradient(90deg,rgba(217,138,158,.12),rgba(164,139,196,.12));
+  position:fixed;top:0;left:0;width:100%;height:3px;z-index:90;
+  background:rgba(255,255,255,.06);
 }
 #progressFill{
   height:100%;width:0%;
-  background:linear-gradient(90deg,var(--sage),var(--rose),var(--lav));
+  background:linear-gradient(90deg,var(--leaf),var(--rose),var(--lav));
+  box-shadow:0 0 10px rgba(245,168,197,.6);
   transition:width .12s linear;
 }
-#progressBee{
-  position:fixed;top:-4px;left:0;z-index:91;font-size:15px;
-  transform:translateX(-50%);transition:left .12s linear;
-  filter:drop-shadow(0 1px 2px rgba(74,58,64,.25));
+#progressDot{
+  position:fixed;top:1.5px;left:0;z-index:91;width:9px;height:9px;border-radius:50%;
+  transform:translate(-50%,-50%);
+  background:#ffe9a8;box-shadow:0 0 8px 3px rgba(255,233,168,.8);
+  transition:left .12s linear;
 }
 
-/* ═══════════ INTRO — THE BUD ═══════════ */
+/* ═══════════ INTRO ═══════════ */
 #intro{
   position:fixed;inset:0;z-index:100;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
-  background:
-    radial-gradient(60% 50% at 30% 20%,rgba(243,205,214,.5),transparent 70%),
-    radial-gradient(55% 45% at 75% 75%,rgba(221,210,236,.45),transparent 70%),
-    radial-gradient(45% 40% at 80% 15%,rgba(211,226,207,.4),transparent 70%),
-    var(--paper);
-  transition:opacity 1.4s ease,visibility 1.4s;
+  background:radial-gradient(ellipse at 50% 30%,rgba(201,174,245,.1),transparent 60%),
+             linear-gradient(180deg,var(--night-1),var(--night-2));
+  transition:opacity 1.6s ease,visibility 1.6s;
   padding:24px;text-align:center;
 }
 #intro.gone{opacity:0;visibility:hidden;pointer-events:none}
 .intro-eyebrow{
   font-family:'Fraunces',serif;font-weight:300;font-style:italic;
-  font-size:1rem;letter-spacing:.14em;color:var(--ink-soft);
-  animation:riseIn 1.4s .2s ease both;
+  font-size:1.02rem;letter-spacing:.12em;color:var(--text-soft);
+  animation:riseIn 1.5s .2s ease both;
 }
 .intro-name{
   font-family:'Pinyon Script',cursive;
-  font-size:clamp(3rem,13vw,5.2rem);line-height:1.15;
-  color:var(--rose-deep);
-  animation:riseIn 1.4s .45s ease both;
-  margin-bottom:8px;
+  font-size:clamp(3rem,13vw,5.4rem);line-height:1.18;
+  color:var(--rose);
+  text-shadow:0 0 26px var(--rose-glow),0 0 70px rgba(245,168,197,.25);
+  animation:riseIn 1.5s .5s ease both;
 }
 @keyframes riseIn{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:translateY(0)}}
+#lightBtn{
+  margin-top:48px;cursor:pointer;border:1px solid rgba(240,204,139,.4);
+  background:rgba(240,204,139,.06);color:var(--gold);
+  font-family:'Fraunces',serif;font-style:italic;font-size:1.05rem;
+  padding:15px 34px;border-radius:999px;letter-spacing:.06em;
+  box-shadow:0 0 24px rgba(240,204,139,.12),inset 0 0 18px rgba(240,204,139,.06);
+  animation:riseIn 1.5s .9s ease both,btnPulse 2.6s 2s ease-in-out infinite;
+  transition:transform .3s ease,box-shadow .3s ease;
+}
+#lightBtn:active{transform:scale(.96)}
+@keyframes btnPulse{
+  0%,100%{box-shadow:0 0 24px rgba(240,204,139,.12),inset 0 0 18px rgba(240,204,139,.06)}
+  50%{box-shadow:0 0 40px rgba(240,204,139,.3),inset 0 0 24px rgba(240,204,139,.12)}
+}
 
-#budWrap{
-  position:relative;margin-top:34px;cursor:pointer;
-  animation:riseIn 1.4s .8s ease both;
-  -webkit-user-select:none;user-select:none;
+/* ═══════════ GARDEN SCENE (hero) ═══════════ */
+#hero{
+  position:relative;min-height:100dvh;z-index:10;
+  display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
+  padding-top:12dvh;text-align:center;overflow:hidden;
 }
-#budWrap svg{display:block;width:min(190px,46vw);height:auto;overflow:visible}
-#budWrap .breathe{animation:breathe 3.2s ease-in-out infinite;transform-origin:50% 78%}
-@keyframes breathe{0%,100%{transform:scale(1) rotate(-1.5deg)}50%{transform:scale(1.05) rotate(1.5deg)}}
-.bud-petal{
-  transform-origin:100px 96px;
-  transform:scale(.16) rotate(var(--ra));
-  transition:transform 1.5s cubic-bezier(.2,1.4,.3,1);
-  transition-delay:var(--td);
+.hero-eyebrow{
+  font-family:'Fraunces',serif;font-weight:300;font-size:.8rem;
+  letter-spacing:.45em;text-transform:uppercase;color:var(--text-soft);
+  margin-bottom:14px;opacity:0;animation:riseIn 1.4s 2.2s ease forwards;
 }
-#budWrap.bloomed .bud-petal{transform:scale(1) rotate(var(--ra))}
-#budWrap.bloomed .breathe{animation:none}
-.bud-core{transform-origin:100px 96px;transition:transform 1.2s .5s cubic-bezier(.2,1.4,.3,1)}
-#budWrap.bloomed .bud-core{transform:scale(1.25)}
-.ripple{
-  position:absolute;left:50%;top:42%;width:30px;height:30px;border-radius:50%;
-  transform:translate(-50%,-50%) scale(0);pointer-events:none;
-  border:2px solid var(--rose);opacity:0;
+body.not-bloomed .hero-eyebrow,body.not-bloomed .hero-name,body.not-bloomed .hero-sub,body.not-bloomed .hero-cue{animation-play-state:paused}
+.hero-name{
+  font-family:'Pinyon Script',cursive;font-weight:400;
+  font-size:clamp(3.4rem,15vw,6.6rem);line-height:1.12;
+  color:var(--rose);
+  text-shadow:0 0 30px var(--rose-glow),0 0 90px rgba(245,168,197,.3);
+  opacity:0;animation:riseIn 1.6s 2.6s ease forwards;
 }
-#budWrap.bloomed .ripple{animation:rip 1.6s ease-out forwards}
-#budWrap.bloomed .ripple:nth-child(2){animation-delay:.25s;border-color:var(--lav)}
-#budWrap.bloomed .ripple:nth-child(3){animation-delay:.5s;border-color:var(--sage)}
-@keyframes rip{0%{transform:translate(-50%,-50%) scale(0);opacity:.8}100%{transform:translate(-50%,-50%) scale(14);opacity:0}}
-.intro-hint{
-  margin-top:30px;font-family:'Fraunces',serif;font-style:italic;font-weight:300;
-  font-size:.95rem;letter-spacing:.1em;color:var(--ink-soft);
-  animation:riseIn 1.4s 1.1s ease both, soft-blink 2.6s 2.2s ease-in-out infinite;
+.hero-sub{
+  font-family:'Fraunces',serif;font-style:italic;font-weight:300;
+  font-size:clamp(1.05rem,4.3vw,1.4rem);color:var(--text-soft);
+  max-width:440px;margin-top:18px;padding:0 22px;
+  opacity:0;animation:riseIn 1.6s 3.2s ease forwards;
 }
-@keyframes soft-blink{0%,100%{opacity:1}50%{opacity:.35}}
+.hero-cue{
+  position:absolute;bottom:4dvh;left:50%;transform:translateX(-50%);z-index:30;
+  font-family:'Fraunces',serif;font-style:italic;font-size:.88rem;
+  color:var(--gold);letter-spacing:.08em;text-shadow:0 0 14px rgba(240,204,139,.5);
+  opacity:0;animation:riseIn 1.6s 4.4s ease forwards;
+  white-space:nowrap;
+}
+.hero-cue .arr{display:block;margin-top:6px;animation:cueBob 1.9s ease-in-out infinite}
+@keyframes cueBob{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
+
+.gscene{
+  position:absolute;bottom:0;left:50%;transform:translateX(-50%);
+  width:100%;max-width:760px;height:78vmin;max-height:62dvh;
+  perspective:1000px;pointer-events:none;
+}
+/* ground glow */
+.gscene::after{
+  content:'';position:absolute;bottom:-6vmin;left:50%;transform:translateX(-50%);
+  width:120%;height:16vmin;border-radius:50%;
+  background:radial-gradient(ellipse,rgba(126,212,160,.14),transparent 70%);
+  filter:blur(2vmin);
+}
+
+/* — big flower (demo technique, our palette) — */
+.gflower{
+  position:absolute;bottom:8vmin;left:50%;
+  transform-origin:bottom center;
+  z-index:10;
+  --fl-speed:.9s;
+}
+.gflower--1{animation:sway1 4.5s linear infinite}
+.gflower--2{animation:sway2 4.5s linear infinite}
+.gflower--3{animation:sway3 4.5s linear infinite}
+@keyframes sway1{0%,100%{transform:rotate(2deg)}50%{transform:rotate(-2deg)}}
+@keyframes sway2{0%,100%{transform:rotate(19deg)}50%{transform:rotate(15deg)}}
+@keyframes sway3{0%,100%{transform:rotate(-17deg)}50%{transform:rotate(-20deg) rotateY(-10deg)}}
+
+.gf-stem{
+  width:1.4vmin;
+  background-image:linear-gradient(to left,rgba(0,0,0,.25),transparent,rgba(255,255,255,.18)),
+    linear-gradient(to top,transparent 10%,var(--leaf-deep),var(--leaf));
+  box-shadow:inset 0 0 2px rgba(0,0,0,.5);
+  animation:growStem 4s backwards;
+}
+.gflower--1 .gf-stem{height:64vmin;animation-delay:.3s}
+.gflower--2 .gf-stem{height:54vmin;animation-delay:.6s}
+.gflower--3 .gf-stem{height:48vmin;animation-delay:.9s}
+@keyframes growStem{0%{height:0;border-radius:1vmin}}
+
+.gf-sleaf{
+  --w:6.4vmin;--h:8.4vmin;
+  position:absolute;top:20%;left:90%;
+  width:var(--w);height:var(--h);
+  border-top-right-radius:var(--h);border-bottom-left-radius:var(--h);
+  background-image:linear-gradient(to top,rgba(46,125,91,.45),var(--leaf));
+}
+.gf-sleaf--1{transform:rotate(70deg) rotateY(30deg);animation:bloomLeafR var(--fl-speed) 1.6s backwards}
+.gf-sleaf--2{top:45%;transform:rotate(70deg) rotateY(30deg);animation:bloomLeafR var(--fl-speed) 1.4s backwards}
+.gf-sleaf--3,.gf-sleaf--4{
+  border-top-right-radius:0;border-bottom-left-radius:0;
+  border-top-left-radius:var(--h);border-bottom-right-radius:var(--h);
+  left:-460%;top:12%;transform:rotate(-70deg) rotateY(30deg);
+  animation:bloomLeafL var(--fl-speed) 1.2s backwards;
+}
+.gf-sleaf--4{top:40%;animation-delay:1s}
+@keyframes bloomLeafR{0%{transform-origin:left;transform:rotate(70deg) rotateY(30deg) scale(0)}}
+@keyframes bloomLeafL{0%{transform-origin:right;transform:rotate(-70deg) rotateY(30deg) scale(0)}}
+
+.gf-head{position:relative;animation:bloomHead 2s backwards}
+.gflower--1 .gf-head{animation-delay:1.1s}
+.gflower--2 .gf-head{animation-delay:1.4s}
+.gflower--3 .gf-head{animation-delay:1.7s}
+@keyframes bloomHead{0%{transform:scale(0)}}
+.gf-head::after{
+  content:'';position:absolute;left:0;top:0;transform:translate(-50%,-100%);
+  width:8vmin;height:8vmin;background-color:var(--glow);filter:blur(9vmin);
+}
+.gf-petal{
+  position:absolute;bottom:0;left:50%;
+  width:7.6vmin;height:10.4vmin;
+  border-radius:51% 49% 47% 53%/44% 45% 55% 69%;
+  background-image:linear-gradient(to top,var(--p-dark),var(--p-light));
+  transform-origin:bottom center;opacity:.92;
+  box-shadow:inset 0 0 2vmin rgba(255,255,255,.5);
+}
+.gf-petal--1{transform:translate(-10%,1%) rotateY(40deg) rotateX(-50deg)}
+.gf-petal--2{transform:translate(-50%,-4%) rotateX(40deg)}
+.gf-petal--3{transform:translate(-90%,0%) rotateY(45deg) rotateX(50deg)}
+.gf-petal--4{
+  width:7.6vmin;height:7.6vmin;transform-origin:bottom left;
+  border-radius:4vmin 10vmin 4vmin 4vmin;
+  transform:translate(0%,18%) rotateX(70deg) rotate(-43deg);
+  background-image:linear-gradient(to top,var(--p-mid),var(--p-light));
+  z-index:1;opacity:.85;
+}
+.gf-circle{
+  position:absolute;left:-3.3vmin;top:-2.8vmin;width:8.6vmin;height:3.8vmin;
+  border-radius:50%;background-color:#fffdf6;
+  box-shadow:0 0 2vmin rgba(255,253,246,.55);
+}
+.gf-circle::after{
+  content:'';position:absolute;left:50%;top:45%;transform:translate(-50%,-50%);
+  width:60%;height:60%;border-radius:inherit;
+  background:radial-gradient(circle at 40% 35%,#ffe9a8,#f0cc8b 65%,#d9ab5d);
+}
+.gf-light{
+  position:absolute;bottom:0;width:1vmin;height:1vmin;border-radius:50%;
+  background-color:#ffe9a8;filter:blur(.18vmin);
+  box-shadow:0 0 1.4vmin rgba(255,233,168,.8);
+  animation:floatLight 4s linear infinite backwards;
+}
+.gf-light:nth-child(odd){background-color:var(--p-light);box-shadow:0 0 1.4vmin var(--glow)}
+.gf-light--1{left:-2vmin;animation-delay:1s}
+.gf-light--2{left:3vmin;animation-delay:.5s}
+.gf-light--3{left:-6vmin;animation-delay:.3s}
+.gf-light--4{left:6vmin;animation-delay:.9s}
+.gf-light--5{left:-1vmin;animation-delay:1.5s}
+.gf-light--6{left:-4vmin;animation-delay:3s}
+.gf-light--7{left:3vmin;animation-delay:2s}
+.gf-light--8{left:-6vmin;animation-delay:3.5s}
+@keyframes floatLight{
+  0%{opacity:0;transform:translateY(0)}
+  25%{opacity:1;transform:translateY(-5vmin) translateX(-2vmin)}
+  50%{opacity:1;transform:translateY(-14vmin) translateX(2vmin);filter:blur(.2vmin)}
+  75%{transform:translateY(-19vmin) translateX(-2vmin)}
+  100%{transform:translateY(-28vmin);opacity:0;filter:blur(.9vmin)}
+}
+
+/* palettes per flower */
+.gf-rose{--p-light:#ffd3e4;--p-mid:#f5a8c5;--p-dark:#c8628f;--glow:var(--rose-glow)}
+.gf-lav{--p-light:#e6d8ff;--p-mid:#c9aef5;--p-dark:#8e6cc9;--glow:var(--lav-glow)}
+.gf-gold{--p-light:#ffe9bd;--p-mid:#f0cc8b;--p-dark:#c08c3e;--glow:var(--gold-glow)}
+
+/* — grass — */
+.grassWrap{animation:growGrass 1s 2s backwards}
+@keyframes growGrass{0%{transform:scale(0)}}
+.gblade{
+  position:absolute;bottom:6vmin;
+  width:var(--gw,14vmin);height:var(--gh,38vmin);
+  border-top-left-radius:100%;
+  border-left:1.6vmin solid var(--gc,#3f9e74);
+  -webkit-mask-image:linear-gradient(to top,transparent 22%,#000);
+  mask-image:linear-gradient(to top,transparent 22%,#000);
+  transform-origin:bottom center;
+  animation:bladeSway var(--gs,3s) linear infinite;
+}
+.gblade.flip{border-left:none;border-right:1.6vmin solid var(--gc,#3f9e74);border-top-left-radius:0;border-top-right-radius:100%}
+@keyframes bladeSway{0%,100%{transform:rotate(var(--gr,0deg)) scale(1)}50%{transform:rotate(calc(var(--gr,0deg) + 4deg)) scale(1.04)}}
 
 /* ═══════════ LAYOUT ═══════════ */
 main{position:relative;z-index:10}
@@ -152,43 +315,89 @@ main{position:relative;z-index:10}
 .section p{margin-bottom:1.5em}
 .section p:last-child{margin-bottom:0}
 
-/* chapter headers */
 .chap-head{text-align:center;margin-bottom:46px}
-.chap-flower{height:74px;display:flex;justify-content:center;margin-bottom:6px}
-.chap-flower svg{height:100%;width:auto;overflow:visible}
 .chap-num{
-  font-family:'Fraunces',serif;font-weight:300;font-size:.8rem;
+  font-family:'Fraunces',serif;font-weight:300;font-size:.78rem;
   letter-spacing:.5em;text-transform:uppercase;color:var(--gold);
-  margin-bottom:8px;
+  text-shadow:0 0 12px rgba(240,204,139,.4);margin-bottom:8px;
 }
 .chap-title{
   font-family:'Fraunces',serif;font-weight:500;font-style:italic;
-  font-size:clamp(1.9rem,7vw,2.7rem);line-height:1.2;color:var(--ink);
+  font-size:clamp(1.9rem,7vw,2.7rem);line-height:1.2;color:var(--text);
 }
 .chap-title .script{
   font-family:'Pinyon Script',cursive;font-style:normal;font-weight:400;
-  font-size:1.25em;color:var(--rose-deep);
+  font-size:1.25em;color:var(--rose);
+  text-shadow:0 0 18px var(--rose-glow);
 }
 
-/* flower mark animation */
-.fm-petal{transform-origin:60px 46px;transform:scale(0) rotate(var(--ra));transition:transform 1.1s cubic-bezier(.2,1.5,.35,1);transition-delay:var(--td)}
-.fm-core{transform-origin:60px 46px;transform:scale(0);transition:transform .8s .55s cubic-bezier(.2,1.5,.35,1)}
-.fm-stem{stroke-dasharray:60;stroke-dashoffset:60;transition:stroke-dashoffset 1.2s ease}
-.fm-leaf{transform-origin:60px 80px;transform:scale(0);transition:transform .9s .7s cubic-bezier(.2,1.5,.35,1)}
-.in .fm-petal{transform:scale(1) rotate(var(--ra))}
-.in .fm-core{transform:scale(1)}
-.in .fm-stem{stroke-dashoffset:0}
-.in .fm-leaf{transform:scale(1)}
+/* mini 3D flower per chapter */
+.mini-flower{
+  height:96px;display:flex;justify-content:center;align-items:flex-end;
+  margin-bottom:10px;perspective:600px;
+}
+.mf{position:relative;width:0;display:flex;justify-content:center}
+.mf-stem{
+  position:absolute;bottom:0;left:-1.5px;width:3px;height:0;
+  background:linear-gradient(to top,transparent 8%,var(--leaf-deep),var(--leaf));
+  border-radius:2px;transition:height 1.1s ease;
+  box-shadow:0 0 6px var(--leaf-glow);
+}
+.in .mf-stem{height:52px}
+.mf-head{position:absolute;bottom:46px;left:0}
+.mf-head::after{
+  content:'';position:absolute;left:0;top:-6px;transform:translate(-50%,-50%);
+  width:34px;height:34px;background:var(--glow);filter:blur(22px);
+  opacity:0;transition:opacity 1s .9s ease;
+}
+.in .mf-head::after{opacity:1}
+.mf-petal{
+  position:absolute;bottom:0;left:0;
+  width:24px;height:33px;
+  border-radius:51% 49% 47% 53%/44% 45% 55% 69%;
+  background-image:linear-gradient(to top,var(--p-dark),var(--p-light));
+  box-shadow:inset 0 0 8px rgba(255,255,255,.5);
+  transform-origin:bottom center;opacity:.94;
+  transform:translate(-50%,0) scale(0);
+  transition:transform 1s cubic-bezier(.2,1.4,.35,1);
+}
+.mf-petal--1{transition-delay:.45s}
+.mf-petal--2{transition-delay:.6s}
+.mf-petal--3{transition-delay:.75s}
+.in .mf-petal--1{transform:translate(-14%,1%) rotateY(40deg) rotateX(-50deg)}
+.in .mf-petal--2{transform:translate(-50%,-6%) rotateX(40deg)}
+.in .mf-petal--3{transform:translate(-86%,1%) rotateY(45deg) rotateX(50deg)}
+.mf-circle{
+  position:absolute;left:0;top:-10px;transform:translate(-50%,0) scale(0);
+  width:26px;height:12px;border-radius:50%;
+  background:#fffdf6;box-shadow:0 0 10px rgba(255,253,246,.6);
+  transition:transform .8s 1s cubic-bezier(.2,1.5,.4,1);
+}
+.mf-circle::after{
+  content:'';position:absolute;left:50%;top:46%;transform:translate(-50%,-50%);
+  width:60%;height:60%;border-radius:inherit;
+  background:radial-gradient(circle at 40% 35%,#ffe9a8,#f0cc8b 65%,#d9ab5d);
+}
+.in .mf-circle{transform:translate(-50%,0) scale(1)}
+.mf-light{
+  position:absolute;bottom:10px;width:4px;height:4px;border-radius:50%;
+  background:#ffe9a8;box-shadow:0 0 6px 2px rgba(255,233,168,.7);
+  opacity:0;
+}
+.in .mf-light{animation:floatLight 3.6s 1.4s linear infinite}
+.mf-light--1{left:-16px}
+.mf-light--2{left:14px;animation-delay:2.2s!important}
 
 /* drop caps */
 p.lead::first-letter{
   font-family:'Fraunces',serif;font-weight:600;font-style:italic;
   font-size:3.3em;float:left;line-height:.78;
-  padding:.08em .12em 0 0;color:var(--rose-deep);
+  padding:.08em .12em 0 0;color:var(--rose);
+  text-shadow:0 0 16px var(--rose-glow);
 }
 
 /* branch dividers */
-.branch{display:flex;justify-content:center;padding:6px 0}
+.branch{display:flex;justify-content:center;padding:6px 0;filter:drop-shadow(0 0 6px rgba(126,212,160,.35))}
 .branch svg{width:min(240px,62vw);height:auto;overflow:visible}
 .br-line{stroke-dasharray:230;stroke-dashoffset:230;transition:stroke-dashoffset 1.6s ease}
 .br-leaf{transform-origin:center;transform:scale(0);transition:transform .8s cubic-bezier(.2,1.5,.35,1)}
@@ -201,68 +410,27 @@ p.lead::first-letter{
 .reveal.in{opacity:1;transform:translateY(0)}
 .reveal.d1{transition-delay:.12s}.reveal.d2{transition-delay:.24s}.reveal.d3{transition-delay:.36s}
 
-/* quotes — watercolor cards */
+/* quotes */
 .quote{
-  position:relative;margin:2em auto;padding:38px 28px;
+  position:relative;margin:2em auto;padding:38px 30px;
   font-family:'Fraunces',serif;font-style:italic;font-weight:400;
   font-size:clamp(1.35rem,5vw,1.8rem);line-height:1.5;text-align:center;
-  color:var(--ink);
+  color:var(--text);
+  background:rgba(255,255,255,.035);
+  border:1px solid rgba(245,168,197,.18);
+  border-radius:26px;
+  box-shadow:0 0 36px rgba(245,168,197,.07),inset 0 0 30px rgba(245,168,197,.04);
 }
-.quote-wash{
-  position:absolute;inset:0;z-index:-1;filter:url(#wc);
-  border-radius:58% 42% 55% 45%/48% 56% 44% 52%;
-  opacity:.55;
+.quote.lav{border-color:rgba(201,174,245,.2);box-shadow:0 0 36px rgba(201,174,245,.08),inset 0 0 30px rgba(201,174,245,.05)}
+.quote em{
+  font-family:'Pinyon Script',cursive;font-style:normal;font-size:1.3em;
+  color:var(--rose);text-shadow:0 0 18px var(--rose-glow);
 }
-.quote.rose .quote-wash{background:radial-gradient(70% 70% at 40% 35%,var(--rose-pale),rgba(243,205,214,.25) 75%)}
-.quote.lav .quote-wash{background:radial-gradient(70% 70% at 60% 40%,var(--lav-pale),rgba(221,210,236,.25) 75%)}
-.quote em{font-family:'Pinyon Script',cursive;font-style:normal;font-size:1.3em;color:var(--rose-deep)}
 .quote::before{
-  content:'❀';display:block;font-style:normal;
-  color:var(--rose);font-size:1.1rem;margin-bottom:14px;letter-spacing:.5em;
+  content:'✿';display:block;font-style:normal;
+  color:var(--rose);font-size:1rem;margin-bottom:14px;letter-spacing:.5em;
+  text-shadow:0 0 12px var(--rose-glow);
 }
-
-/* ═══════════ HERO ═══════════ */
-#hero{
-  min-height:94dvh;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;text-align:center;
-  padding:46px 24px;position:relative;
-}
-.hero-splash{
-  position:absolute;z-index:-1;border-radius:50%;filter:url(#wc);
-  opacity:0;transition:opacity 1.6s ease,transform 2.2s cubic-bezier(.2,1,.3,1);
-  transform:scale(.4);mix-blend-mode:multiply;
-}
-.hero-splash.s1{width:74vw;max-width:430px;aspect-ratio:1;background:radial-gradient(closest-side,rgba(243,205,214,.85),transparent);top:16%;left:-6%}
-.hero-splash.s2{width:60vw;max-width:340px;aspect-ratio:1;background:radial-gradient(closest-side,rgba(221,210,236,.8),transparent);bottom:18%;right:-8%}
-.hero-splash.s3{width:42vw;max-width:240px;aspect-ratio:1;background:radial-gradient(closest-side,rgba(211,226,207,.75),transparent);top:10%;right:6%}
-#hero.in .hero-splash{opacity:1;transform:scale(1)}
-.hero-eyebrow{
-  font-family:'Fraunces',serif;font-weight:300;font-size:.82rem;
-  letter-spacing:.45em;text-transform:uppercase;color:var(--ink-soft);
-  margin-bottom:14px;
-}
-.hero-name{
-  font-family:'Pinyon Script',cursive;font-weight:400;
-  font-size:clamp(3.6rem,16vw,7rem);line-height:1.1;
-  color:var(--rose-deep);
-  text-shadow:0 2px 24px rgba(217,138,158,.25);
-}
-.hero-sub{
-  font-family:'Fraunces',serif;font-style:italic;font-weight:300;
-  font-size:clamp(1.1rem,4.4vw,1.45rem);color:var(--ink-soft);
-  max-width:460px;margin-top:24px;
-}
-.hero-cue{
-  margin-top:56px;font-family:'Fraunces',serif;font-style:italic;
-  font-size:.9rem;color:var(--sage);letter-spacing:.08em;
-}
-.hero-cue .pet{
-  display:block;width:14px;height:14px;margin:12px auto 0;
-  background:linear-gradient(135deg,var(--rose),var(--rose-pale));
-  border-radius:150% 0 150% 0;
-  animation:cueFall 2.2s ease-in-out infinite;
-}
-@keyframes cueFall{0%{transform:translateY(0) rotate(0);opacity:0}30%{opacity:1}100%{transform:translateY(26px) rotate(160deg);opacity:0}}
 
 /* ═══════════ FRUITS GARDEN ═══════════ */
 .garden{display:grid;grid-template-columns:1fr;gap:16px;margin-top:38px}
@@ -270,103 +438,106 @@ p.lead::first-letter{
 .bloom-card{
   position:relative;cursor:pointer;border-radius:22px;
   padding:20px 22px;overflow:hidden;
-  background:rgba(255,253,248,.72);
-  border:1px solid rgba(207,159,77,.18);
-  box-shadow:0 8px 24px -14px rgba(74,58,64,.25);
-  transition:transform .35s ease,box-shadow .35s ease,border-color .35s ease;
+  background:rgba(255,255,255,.045);
+  border:1px solid rgba(255,255,255,.09);
+  transition:transform .35s ease,box-shadow .45s ease,border-color .45s ease,background .45s ease;
 }
 .bloom-card:active{transform:scale(.975)}
-.bloom-card::before{
-  content:'';position:absolute;top:-30%;right:-22%;width:65%;aspect-ratio:1;
-  border-radius:50%;filter:url(#wc);mix-blend-mode:multiply;
-  background:radial-gradient(closest-side,var(--tint),transparent);
-  opacity:.55;transition:transform .6s ease,opacity .6s ease;
-  transform:scale(.8);
+.bloom-card.open{
+  border-color:var(--tint);
+  background:rgba(255,255,255,.06);
+  box-shadow:0 0 30px -6px var(--tint-glow),inset 0 0 26px rgba(255,255,255,.03);
 }
-.bloom-card.open{border-color:var(--tint);box-shadow:0 14px 34px -14px rgba(74,58,64,.3)}
-.bloom-card.open::before{transform:scale(1.5);opacity:.8}
-.bloom-head{display:flex;align-items:center;gap:14px;position:relative}
+.bloom-head{display:flex;align-items:center;gap:14px}
 .bloom-ico{
   width:38px;height:38px;flex:none;display:flex;align-items:center;justify-content:center;
-  font-size:1.5rem;transition:transform .7s cubic-bezier(.2,1.4,.35,1);
+  font-size:1.5rem;filter:drop-shadow(0 0 8px var(--tint-glow));
+  transition:transform .7s cubic-bezier(.2,1.4,.35,1);
 }
 .bloom-card.open .bloom-ico{transform:rotate(360deg) scale(1.18)}
 .bloom-name{
   font-family:'Fraunces',serif;font-weight:500;font-size:1.05rem;
-  letter-spacing:.06em;color:var(--ink);flex:1;
+  letter-spacing:.06em;color:var(--text);flex:1;
 }
 .bloom-chev{color:var(--gold);font-size:.8rem;transition:transform .45s ease}
 .bloom-card.open .bloom-chev{transform:rotate(180deg)}
 .bloom-body{
-  max-height:0;overflow:hidden;opacity:0;position:relative;
+  max-height:0;overflow:hidden;opacity:0;
   transition:max-height .6s ease,opacity .5s ease,margin .45s ease;
-  font-style:italic;color:var(--ink-soft);font-size:1.06rem;line-height:1.7;
+  font-style:italic;color:var(--text-soft);font-size:1.06rem;line-height:1.7;
 }
 .bloom-card.open .bloom-body{max-height:320px;opacity:1;margin-top:13px}
 .garden-hint{
   text-align:center;font-family:'Fraunces',serif;font-style:italic;
-  font-size:.92rem;color:var(--sage);margin-top:24px;letter-spacing:.06em;
+  font-size:.92rem;color:var(--leaf);margin-top:24px;letter-spacing:.06em;
+  text-shadow:0 0 12px var(--leaf-glow);
 }
 
 /* ═══════════ ERES ═══════════ */
 .eres-box{position:relative;text-align:center;padding:36px 0 14px}
 .eres-splash{
   position:absolute;left:50%;top:55%;transform:translate(-50%,-50%) scale(.5);
-  width:min(330px,82vw);aspect-ratio:1.5;border-radius:50%;
-  filter:url(#wc);mix-blend-mode:multiply;z-index:-1;opacity:0;
-  background:radial-gradient(closest-side,rgba(243,205,214,.8),transparent);
+  width:min(330px,82vw);aspect-ratio:1.6;border-radius:50%;z-index:-1;opacity:0;
+  background:radial-gradient(closest-side,rgba(245,168,197,.16),transparent);
+  filter:blur(8px);
   transition:opacity 1.4s ease,transform 1.8s cubic-bezier(.2,1,.3,1);
 }
 .eres-box.in .eres-splash{opacity:1;transform:translate(-50%,-50%) scale(1)}
-.eres-fixed{font-family:'Fraunces',serif;font-style:italic;font-size:1.35rem;color:var(--ink-soft)}
+.eres-fixed{font-family:'Fraunces',serif;font-style:italic;font-size:1.35rem;color:var(--text-soft)}
 .eres-word{
   display:block;font-family:'Pinyon Script',cursive;
-  font-size:clamp(2.6rem,11vw,4.2rem);color:var(--rose-deep);
+  font-size:clamp(2.6rem,11vw,4.2rem);color:var(--rose);
+  text-shadow:0 0 24px var(--rose-glow);
   min-height:1.45em;line-height:1.35;
   transition:opacity .5s ease,transform .5s ease,filter .5s ease;
 }
-.eres-word.swap{opacity:0;transform:translateY(16px);filter:blur(4px)}
+.eres-word.swap{opacity:0;transform:translateY(16px);filter:blur(5px)}
 
 /* ═══════════ FINALE ═══════════ */
 #finale{text-align:center}
-#roseWrap{
-  position:relative;margin:46px auto 0;cursor:pointer;width:min(230px,58vw);
-  -webkit-user-select:none;user-select:none;
+#finalGarden{
+  position:relative;height:330px;margin-top:30px;
+  display:flex;justify-content:center;perspective:900px;
+  cursor:pointer;-webkit-user-select:none;user-select:none;
 }
-#roseWrap svg{display:block;width:100%;height:auto;overflow:visible}
-#roseWrap .sway{animation:roseSway 4.5s ease-in-out infinite;transform-origin:50% 95%}
-@keyframes roseSway{0%,100%{transform:rotate(-2deg)}50%{transform:rotate(2deg)}}
-.rp{
-  transform-origin:110px 92px;
-  transform:scale(.18) rotate(var(--ra));
-  transition:transform 1.7s cubic-bezier(.2,1.35,.3,1);transition-delay:var(--td);
-}
-#roseWrap.bloomed .rp{transform:scale(1) rotate(var(--ra))}
-#roseWrap.bloomed .sway{animation-duration:7s}
-.rose-core{transform-origin:110px 92px;transition:transform 1.3s .6s cubic-bezier(.2,1.4,.3,1)}
-#roseWrap.bloomed .rose-core{transform:scale(1.3)}
+#finalGarden .gflower{bottom:0;--fl-speed:.9s}
+#finalGarden .gf-stem{height:0;transition:height 2s ease}
+#finalGarden.lit .gf-stem{height:200px}
+#finalGarden .gf-stem{width:5px}
+#finalGarden .gf-sleaf{--w:26px;--h:34px;animation:none;transform:scale(0) rotate(70deg) rotateY(30deg);transform-origin:left;transition:transform .9s 1.3s cubic-bezier(.2,1.4,.35,1)}
+#finalGarden .gf-sleaf--3{transform:scale(0) rotate(-70deg) rotateY(30deg);transform-origin:right;transition-delay:1.1s}
+#finalGarden.lit .gf-sleaf{transform:scale(1) rotate(70deg) rotateY(30deg)}
+#finalGarden.lit .gf-sleaf--3{transform:scale(1) rotate(-70deg) rotateY(30deg)}
+#finalGarden .gf-head{animation:none;transform:scale(0);transition:transform 1.6s 1.6s cubic-bezier(.2,1.3,.35,1)}
+#finalGarden.lit .gf-head{transform:scale(1)}
+#finalGarden .gf-petal{width:34px;height:46px}
+#finalGarden .gf-petal--4{width:34px;height:34px}
+#finalGarden .gf-circle{width:38px;height:17px;left:-15px;top:-13px}
+#finalGarden .gf-light{animation:none;opacity:0}
+#finalGarden.lit .gf-light{animation:floatLight 3.8s 2.6s linear infinite}
 .rose-hint{
   font-family:'Fraunces',serif;font-style:italic;font-size:.95rem;
-  color:var(--rose-deep);margin-top:26px;letter-spacing:.06em;
+  color:var(--gold);margin-top:18px;letter-spacing:.06em;
+  text-shadow:0 0 12px rgba(240,204,139,.5);
   animation:soft-blink 2.6s ease-in-out infinite;
   transition:opacity .6s;
 }
+@keyframes soft-blink{0%,100%{opacity:1}50%{opacity:.35}}
 .rose-hint.gone{opacity:0;animation:none}
 .wish{
   font-family:'Pinyon Script',cursive;
   font-size:clamp(2.6rem,11vw,4.4rem);line-height:1.25;
-  color:var(--rose-deep);margin-top:36px;
-  opacity:0;transform:scale(.85);
+  color:var(--rose);
+  text-shadow:0 0 28px var(--rose-glow),0 0 80px rgba(245,168,197,.35);
+  margin-top:34px;opacity:0;transform:scale(.85);
   transition:opacity 1.2s .4s ease,transform 1.2s .4s cubic-bezier(.2,1.3,.4,1);
 }
 .wish.show{opacity:1;transform:scale(1)}
-.sig-pre{
-  font-style:italic;color:var(--ink-soft);font-size:1.05rem;
-  max-width:500px;margin:60px auto 4px;
-}
+.sig-pre{font-style:italic;color:var(--text-soft);font-size:1.05rem;max-width:500px;margin:60px auto 4px}
 .signature{
   font-family:'Pinyon Script',cursive;font-size:clamp(2.8rem,11vw,4rem);
-  color:var(--gold);transform:rotate(-3.5deg);display:inline-block;
+  color:var(--gold);text-shadow:0 0 22px rgba(240,204,139,.5);
+  transform:rotate(-3.5deg);display:inline-block;
 }
 
 #petalCanvas{position:fixed;inset:0;pointer-events:none;z-index:70}
@@ -374,76 +545,110 @@ p.lead::first-letter{
 footer{
   position:relative;z-index:10;text-align:center;padding:34px 20px 58px;
   font-family:'Fraunces',serif;font-style:italic;font-weight:300;
-  font-size:.85rem;letter-spacing:.18em;color:#b9a48f;
+  font-size:.85rem;letter-spacing:.18em;color:#8d7790;
 }
-
-/* butterflies */
-.butterfly{position:fixed;z-index:50;pointer-events:none;width:34px;height:34px;will-change:transform}
-.butterfly svg{width:100%;height:100%;overflow:visible}
-.bw{animation:flap .28s ease-in-out infinite alternate;transform-origin:17px 17px}
-.bw.left{transform-origin:17px 17px}
-@keyframes flap{from{transform:scaleX(1)}to{transform:scaleX(.32)}}
 
 @media(min-width:768px){body{font-size:1.3rem}}
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.25s!important}
-  .butterfly{display:none}
 }
 </style>
 </head>
-<body class="locked">
+<body class="locked not-bloomed">
 
-<!-- watercolor edge filter -->
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <filter id="wc" x="-20%" y="-20%" width="140%" height="140%">
-    <feTurbulence type="fractalNoise" baseFrequency="0.012 0.016" numOctaves="3" seed="7" result="n"/>
-    <feDisplacementMap in="SourceGraphic" in2="n" scale="55"/>
-  </filter>
-</svg>
-
-<div id="washes" aria-hidden="true"></div>
-<div id="grain" aria-hidden="true"></div>
+<div id="sky" aria-hidden="true"><div id="moon"></div></div>
+<div id="mist" aria-hidden="true"></div>
 <canvas id="petalCanvas" aria-hidden="true"></canvas>
 
 <div id="progressTrack" aria-hidden="true"><div id="progressFill"></div></div>
-<div id="progressBee" aria-hidden="true">🦋</div>
+<div id="progressDot" aria-hidden="true"></div>
 
 <!-- ═══════════ INTRO ═══════════ -->
 <div id="intro">
-  <p class="intro-eyebrow">Hay un jardín esperándote…</p>
+  <p class="intro-eyebrow">Hay un jardín que solo florece de noche…</p>
   <h1 class="intro-name">Priscila Mabel</h1>
-  <div id="budWrap" role="button" tabindex="0" aria-label="Tocar la flor para abrir la carta">
-    <span class="ripple"></span><span class="ripple"></span><span class="ripple"></span>
-    <svg viewBox="0 0 200 210" aria-hidden="true">
-      <g class="breathe">
-        <path d="M100 200 Q97 150 100 112" stroke="#8fae8b" stroke-width="4" fill="none" stroke-linecap="round"/>
-        <path d="M100 165 Q76 158 68 138 Q92 140 100 158 Z" fill="#a8c2a2"/>
-        <path d="M100 178 Q124 172 132 152 Q108 153 100 170 Z" fill="#9db89a"/>
-        <g class="bud-petal" style="--ra:0deg;--td:.05s"><ellipse cx="100" cy="58" rx="20" ry="40" fill="#e7a9ba"/></g>
-        <g class="bud-petal" style="--ra:51deg;--td:.12s"><ellipse cx="100" cy="58" rx="20" ry="40" fill="#edbcc9"/></g>
-        <g class="bud-petal" style="--ra:103deg;--td:.19s"><ellipse cx="100" cy="58" rx="20" ry="40" fill="#e29db0"/></g>
-        <g class="bud-petal" style="--ra:154deg;--td:.26s"><ellipse cx="100" cy="58" rx="20" ry="40" fill="#edbcc9"/></g>
-        <g class="bud-petal" style="--ra:206deg;--td:.33s"><ellipse cx="100" cy="58" rx="20" ry="40" fill="#e7a9ba"/></g>
-        <g class="bud-petal" style="--ra:257deg;--td:.40s"><ellipse cx="100" cy="58" rx="20" ry="40" fill="#f3cdd6"/></g>
-        <g class="bud-petal" style="--ra:309deg;--td:.47s"><ellipse cx="100" cy="58" rx="20" ry="40" fill="#e29db0"/></g>
-        <g class="bud-core"><circle cx="100" cy="96" r="15" fill="#cf9f4d"/><circle cx="95" cy="91" r="4" fill="#ecd9b0"/></g>
-      </g>
-    </svg>
-  </div>
-  <p class="intro-hint">Toca la flor para abrir tu carta ✿</p>
+  <button id="lightBtn">✿ &nbsp;Enciende el jardín&nbsp; ✿</button>
 </div>
 
 <main>
 
-  <!-- ═══════════ HERO ═══════════ -->
-  <section id="hero" class="reveal">
-    <div class="hero-splash s1"></div>
-    <div class="hero-splash s2"></div>
-    <div class="hero-splash s3"></div>
-    <p class="hero-eyebrow reveal">En tu cumpleaños</p>
-    <h2 class="hero-name reveal d1">Priscila Mabel</h2>
-    <p class="hero-sub reveal d2">Hay fechas que uno no puede mirar como un día más… y la tuya nunca lo será para mí.</p>
-    <div class="hero-cue reveal d3">desliza para pasear por el jardín<span class="pet"></span></div>
+  <!-- ═══════════ HERO: NIGHT GARDEN ═══════════ -->
+  <section id="hero">
+    <p class="hero-eyebrow">En tu cumpleaños</p>
+    <h2 class="hero-name">Priscila Mabel</h2>
+    <p class="hero-sub">Hay fechas que uno no puede mirar como un día más… y la tuya nunca lo será para mí.</p>
+
+    <div class="gscene" aria-hidden="true">
+      <!-- flower 1: rose, center -->
+      <div class="gflower gflower--1 gf-rose">
+        <div class="gf-head">
+          <div class="gf-petal gf-petal--1"></div>
+          <div class="gf-petal gf-petal--2"></div>
+          <div class="gf-petal gf-petal--3"></div>
+          <div class="gf-petal gf-petal--4"></div>
+          <div class="gf-circle"></div>
+          <div class="gf-light gf-light--1"></div><div class="gf-light gf-light--2"></div>
+          <div class="gf-light gf-light--3"></div><div class="gf-light gf-light--4"></div>
+          <div class="gf-light gf-light--5"></div><div class="gf-light gf-light--6"></div>
+          <div class="gf-light gf-light--7"></div><div class="gf-light gf-light--8"></div>
+        </div>
+        <div class="gf-stem">
+          <div class="gf-sleaf gf-sleaf--1"></div>
+          <div class="gf-sleaf gf-sleaf--2"></div>
+          <div class="gf-sleaf gf-sleaf--3"></div>
+          <div class="gf-sleaf gf-sleaf--4"></div>
+        </div>
+      </div>
+      <!-- flower 2: lavender, right -->
+      <div class="gflower gflower--2 gf-lav">
+        <div class="gf-head">
+          <div class="gf-petal gf-petal--1"></div>
+          <div class="gf-petal gf-petal--2"></div>
+          <div class="gf-petal gf-petal--3"></div>
+          <div class="gf-petal gf-petal--4"></div>
+          <div class="gf-circle"></div>
+          <div class="gf-light gf-light--1"></div><div class="gf-light gf-light--2"></div>
+          <div class="gf-light gf-light--3"></div><div class="gf-light gf-light--4"></div>
+          <div class="gf-light gf-light--5"></div><div class="gf-light gf-light--6"></div>
+        </div>
+        <div class="gf-stem">
+          <div class="gf-sleaf gf-sleaf--1"></div>
+          <div class="gf-sleaf gf-sleaf--2"></div>
+          <div class="gf-sleaf gf-sleaf--3"></div>
+          <div class="gf-sleaf gf-sleaf--4"></div>
+        </div>
+      </div>
+      <!-- flower 3: gold, left -->
+      <div class="gflower gflower--3 gf-gold">
+        <div class="gf-head">
+          <div class="gf-petal gf-petal--1"></div>
+          <div class="gf-petal gf-petal--2"></div>
+          <div class="gf-petal gf-petal--3"></div>
+          <div class="gf-petal gf-petal--4"></div>
+          <div class="gf-circle"></div>
+          <div class="gf-light gf-light--1"></div><div class="gf-light gf-light--2"></div>
+          <div class="gf-light gf-light--3"></div><div class="gf-light gf-light--4"></div>
+          <div class="gf-light gf-light--5"></div><div class="gf-light gf-light--6"></div>
+        </div>
+        <div class="gf-stem">
+          <div class="gf-sleaf gf-sleaf--1"></div>
+          <div class="gf-sleaf gf-sleaf--2"></div>
+          <div class="gf-sleaf gf-sleaf--3"></div>
+          <div class="gf-sleaf gf-sleaf--4"></div>
+        </div>
+      </div>
+      <!-- grass -->
+      <div class="grassWrap">
+        <div class="gblade" style="left:14%;--gw:13vmin;--gh:34vmin;--gr:-6deg;--gc:#37875f;--gs:2.8s"></div>
+        <div class="gblade flip" style="right:13%;--gw:14vmin;--gh:38vmin;--gr:5deg;--gc:#3f9e74;--gs:3.3s"></div>
+        <div class="gblade" style="left:30%;--gw:9vmin;--gh:26vmin;--gr:-3deg;--gc:#2e7d5b;--gs:2.5s"></div>
+        <div class="gblade flip" style="right:30%;--gw:9vmin;--gh:24vmin;--gr:4deg;--gc:#2e7d5b;--gs:3s"></div>
+        <div class="gblade" style="left:4%;--gw:11vmin;--gh:28vmin;--gr:-8deg;--gc:#26684c;--gs:3.4s"></div>
+        <div class="gblade flip" style="right:3%;--gw:11vmin;--gh:27vmin;--gr:7deg;--gc:#26684c;--gs:2.7s"></div>
+      </div>
+    </div>
+
+    <div class="hero-cue">desliza para pasear por el jardín<span class="arr">↓</span></div>
   </section>
 
   <div class="branch" data-branch></div>
@@ -451,7 +656,7 @@ footer{
   <!-- ═══════════ I ═══════════ -->
   <section class="section">
     <header class="chap-head reveal">
-      <div class="chap-flower" data-flower="rose"></div>
+      <div class="mini-flower" data-mini="rose"></div>
       <p class="chap-num">Capítulo I</p>
       <h3 class="chap-title">Desde el <span class="script">corazón</span></h3>
     </header>
@@ -463,7 +668,7 @@ footer{
   <!-- ═══════════ II ═══════════ -->
   <section class="section">
     <header class="chap-head reveal">
-      <div class="chap-flower" data-flower="lav"></div>
+      <div class="mini-flower" data-mini="lav"></div>
       <p class="chap-num">Capítulo II</p>
       <h3 class="chap-title">A la <span class="script">distancia</span></h3>
     </header>
@@ -476,16 +681,16 @@ footer{
   <!-- ═══════════ III ═══════════ -->
   <section class="section">
     <header class="chap-head reveal">
-      <div class="chap-flower" data-flower="rose"></div>
+      <div class="mini-flower" data-mini="rose"></div>
       <p class="chap-num">Capítulo III</p>
       <h3 class="chap-title">Lo que <span class="script">significas</span></h3>
     </header>
     <p class="lead reveal">Bae, no quería dejar pasar este día sin decirte algo que llevo en el corazón con toda la sinceridad del mundo:</p>
-    <div class="quote rose reveal"><span class="quote-wash"></span>No ha habido una mujer más importante en mi vida <em>que tú</em>.</div>
+    <div class="quote reveal">No ha habido una mujer más importante en mi vida <em>que tú</em>.</div>
     <p class="reveal">Y no lo digo por costumbre, por nostalgia ni por querer romantizar el pasado. Lo digo porque reconozco la verdad de lo que significaste y sigues significando para mí. Tú no fuiste simplemente alguien que pasó por mi vida; tú fuiste una persona que Dios usó para marcar mi historia, para sembrar en mí cosas eternas, para mostrarme verdades que no se borran con el tiempo ni con la distancia. Tú me mostraste el evangelio. Y eso, Bae, es algo que nunca voy a tener cómo pagarte.</p>
     <p class="reveal">No existe regalo, palabra, gesto ni carta que pueda estar a la altura de lo que significa que una persona sea instrumento de Dios para acercarte a Cristo. A través de ti pude ver el evangelio de una manera más viva, más cercana, más real. No solamente porque me hablaras de Dios, sino porque muchas veces tu propia vida me habló de Él. Tu forma de amar, de perdonar, de cuidar, de tener paciencia, de buscar la voluntad del Señor, de reconocer cuando algo no estaba bien, de volver a Sus pies, de orar, de sentir con tanta profundidad… todo eso fue predicación para mí, incluso cuando quizás tú no te dabas cuenta.</p>
     <p class="reveal">Y por eso estaré eternamente agradecido con Dios y contigo. Porque si hay algo que no se olvida es a la persona que Dios usó para que uno pudiera verlo con otros ojos. Y tú fuiste eso para mí.</p>
-    <div class="quote lav reveal"><span class="quote-wash"></span>Fuiste luz. Fuiste instrumento. Fuiste testimonio. Fuiste, de muchas maneras, una expresión de la <em>gracia de Dios</em> en mi vida.</div>
+    <div class="quote lav reveal">Fuiste luz. Fuiste instrumento. Fuiste testimonio. Fuiste, de muchas maneras, una expresión de la <em>gracia de Dios</em> en mi vida.</div>
   </section>
 
   <div class="branch" data-branch></div>
@@ -493,7 +698,7 @@ footer{
   <!-- ═══════════ IV ═══════════ -->
   <section class="section">
     <header class="chap-head reveal">
-      <div class="chap-flower" data-flower="sage"></div>
+      <div class="mini-flower" data-mini="gold"></div>
       <p class="chap-num">Capítulo IV</p>
       <h3 class="chap-title">Te <span class="script">admiro</span></h3>
     </header>
@@ -503,44 +708,44 @@ footer{
 
   <div class="branch" data-branch></div>
 
-  <!-- ═══════════ V — FRUITS GARDEN ═══════════ -->
+  <!-- ═══════════ V — FRUITS ═══════════ -->
   <section class="section">
     <header class="chap-head reveal">
-      <div class="chap-flower" data-flower="gold"></div>
+      <div class="mini-flower" data-mini="lav"></div>
       <p class="chap-num">Capítulo V</p>
       <h3 class="chap-title">Los frutos <span class="script">en ti</span></h3>
     </header>
     <p class="lead reveal">Y algo que siempre he visto en ti, y que hoy quiero volver a decirte, es que cada uno de los frutos del Espíritu se manifiesta de una manera hermosa en tu vida.</p>
     <div class="garden">
-      <div class="bloom-card reveal" style="--tint:var(--rose-pale)" data-bloom>
+      <div class="bloom-card reveal" style="--tint:rgba(245,168,197,.45);--tint-glow:rgba(245,168,197,.35)" data-bloom>
         <div class="bloom-head"><span class="bloom-ico">🌹</span><span class="bloom-name">Amor</span><span class="bloom-chev">▾</span></div>
         <div class="bloom-body">En ti he visto amor, no como una simple palabra, sino como una decisión, como entrega, como cuidado, como sacrificio.</div>
       </div>
-      <div class="bloom-card reveal d1" style="--tint:var(--gold-pale)" data-bloom>
+      <div class="bloom-card reveal d1" style="--tint:rgba(240,204,139,.45);--tint-glow:rgba(240,204,139,.35)" data-bloom>
         <div class="bloom-head"><span class="bloom-ico">🌻</span><span class="bloom-name">Gozo</span><span class="bloom-chev">▾</span></div>
         <div class="bloom-body">He visto gozo, incluso cuando las circunstancias no han sido perfectas.</div>
       </div>
-      <div class="bloom-card reveal" style="--tint:var(--lav-pale)" data-bloom>
+      <div class="bloom-card reveal" style="--tint:rgba(201,174,245,.45);--tint-glow:rgba(201,174,245,.35)" data-bloom>
         <div class="bloom-head"><span class="bloom-ico">💐</span><span class="bloom-name">Paz</span><span class="bloom-chev">▾</span></div>
         <div class="bloom-body">He visto paz, esa paz que nace de saber que Dios está presente aun cuando todo alrededor parece incierto.</div>
       </div>
-      <div class="bloom-card reveal d1" style="--tint:var(--sage-pale)" data-bloom>
+      <div class="bloom-card reveal d1" style="--tint:rgba(126,212,160,.45);--tint-glow:rgba(126,212,160,.3)" data-bloom>
         <div class="bloom-head"><span class="bloom-ico">🌿</span><span class="bloom-name">Paciencia</span><span class="bloom-chev">▾</span></div>
         <div class="bloom-body">He visto paciencia, muchísima paciencia, incluso conmigo, incluso en momentos en los que yo no supe valorar lo que tenía delante.</div>
       </div>
-      <div class="bloom-card reveal" style="--tint:var(--rose-pale)" data-bloom>
+      <div class="bloom-card reveal" style="--tint:rgba(245,168,197,.45);--tint-glow:rgba(245,168,197,.35)" data-bloom>
         <div class="bloom-head"><span class="bloom-ico">🌸</span><span class="bloom-name">Benignidad y bondad</span><span class="bloom-chev">▾</span></div>
         <div class="bloom-body">He visto benignidad y bondad en tu trato, en tu forma de mirar a los demás, en tu manera de no endurecerte aunque hayas tenido razones humanas para hacerlo.</div>
       </div>
-      <div class="bloom-card reveal d1" style="--tint:var(--lav-pale)" data-bloom>
+      <div class="bloom-card reveal d1" style="--tint:rgba(201,174,245,.45);--tint-glow:rgba(201,174,245,.35)" data-bloom>
         <div class="bloom-head"><span class="bloom-ico">🪻</span><span class="bloom-name">Fe</span><span class="bloom-chev">▾</span></div>
         <div class="bloom-body">He visto fe en tu forma de aferrarte al Señor, aun cuando no entiendes todo.</div>
       </div>
-      <div class="bloom-card reveal" style="--tint:var(--sage-pale)" data-bloom>
+      <div class="bloom-card reveal" style="--tint:rgba(126,212,160,.45);--tint-glow:rgba(126,212,160,.3)" data-bloom>
         <div class="bloom-head"><span class="bloom-ico">🕊️</span><span class="bloom-name">Mansedumbre</span><span class="bloom-chev">▾</span></div>
         <div class="bloom-body">He visto mansedumbre en tu corazón, en esa manera tuya de sentir sin volverte cruel, de sufrir sin perder completamente la ternura.</div>
       </div>
-      <div class="bloom-card reveal d1" style="--tint:var(--gold-pale)" data-bloom>
+      <div class="bloom-card reveal d1" style="--tint:rgba(240,204,139,.45);--tint-glow:rgba(240,204,139,.35)" data-bloom>
         <div class="bloom-head"><span class="bloom-ico">🌷</span><span class="bloom-name">Dominio propio</span><span class="bloom-chev">▾</span></div>
         <div class="bloom-body">He visto dominio propio, aunque quizás tú misma no siempre lo notes, en cada vez que has decidido hacer lo correcto delante de Dios, aun cuando lo correcto no fuera lo más fácil.</div>
       </div>
@@ -553,7 +758,7 @@ footer{
   <!-- ═══════════ VI ═══════════ -->
   <section class="section">
     <header class="chap-head reveal">
-      <div class="chap-flower" data-flower="lav"></div>
+      <div class="mini-flower" data-mini="gold"></div>
       <p class="chap-num">Capítulo VI</p>
       <h3 class="chap-title">Doy <span class="script">gracias</span></h3>
     </header>
@@ -568,7 +773,7 @@ footer{
   <!-- ═══════════ VII ═══════════ -->
   <section class="section">
     <header class="chap-head reveal">
-      <div class="chap-flower" data-flower="rose"></div>
+      <div class="mini-flower" data-mini="rose"></div>
       <p class="chap-num">Capítulo VII</p>
       <h3 class="chap-title">Con <span class="script">honestidad</span></h3>
     </header>
@@ -583,7 +788,7 @@ footer{
   <!-- ═══════════ VIII ═══════════ -->
   <section class="section">
     <header class="chap-head reveal">
-      <div class="chap-flower" data-flower="gold"></div>
+      <div class="mini-flower" data-mini="gold"></div>
       <p class="chap-num">Capítulo VIII</p>
       <h3 class="chap-title">Mis deseos <span class="script">para ti</span></h3>
     </header>
@@ -604,7 +809,7 @@ footer{
   <!-- ═══════════ IX ═══════════ -->
   <section class="section">
     <header class="chap-head reveal">
-      <div class="chap-flower" data-flower="sage"></div>
+      <div class="mini-flower" data-mini="lav"></div>
       <p class="chap-num">Capítulo IX</p>
       <h3 class="chap-title">Gracias, <span class="script">Bae</span></h3>
     </header>
@@ -620,32 +825,32 @@ footer{
   <!-- ═══════════ X — FINALE ═══════════ -->
   <section class="section" id="finale">
     <header class="chap-head reveal">
-      <div class="chap-flower" data-flower="rose"></div>
+      <div class="mini-flower" data-mini="rose"></div>
       <p class="chap-num">Capítulo X</p>
       <h3 class="chap-title">Feliz <span class="script">cumpleaños</span></h3>
     </header>
     <p class="lead reveal" style="text-align:left">Que el Señor te bendiga mucho, mucho, mucho. Que haga resplandecer Su rostro sobre ti, que te dé paz, que afirme tus pasos, que sane tu corazón, que multiplique tu gozo, que guarde tu fe, que nunca permita que nada ni nadie te aparte de Su amor, que sigas siendo esa mujer centrada en Cristo, sensible a Su voz, llena de gracia, llena de propósito y sostenida por Su mano.</p>
     <p class="reveal" style="text-align:left">Y aunque hoy te escriba desde lejos, aunque la vida sea distinta, aunque las cosas no sean como un día imaginé, quiero que sepas que mi corazón sigue dando gracias a Dios por ti.</p>
 
-    <div id="roseWrap" class="reveal" role="button" tabindex="0" aria-label="Tocar la rosa">
-      <svg viewBox="0 0 220 230" aria-hidden="true">
-        <g class="sway">
-          <path d="M110 222 Q106 165 110 110" stroke="#8fae8b" stroke-width="5" fill="none" stroke-linecap="round"/>
-          <path d="M110 185 Q80 178 70 154 Q100 156 110 177 Z" fill="#a8c2a2"/>
-          <path d="M110 198 Q140 191 150 167 Q120 169 110 190 Z" fill="#9db89a"/>
-          <g class="rp" style="--ra:0deg;--td:0s"><ellipse cx="110" cy="50" rx="24" ry="46" fill="#e7a9ba"/></g>
-          <g class="rp" style="--ra:45deg;--td:.09s"><ellipse cx="110" cy="50" rx="24" ry="46" fill="#edbcc9"/></g>
-          <g class="rp" style="--ra:90deg;--td:.18s"><ellipse cx="110" cy="50" rx="24" ry="46" fill="#e29db0"/></g>
-          <g class="rp" style="--ra:135deg;--td:.27s"><ellipse cx="110" cy="50" rx="24" ry="46" fill="#f3cdd6"/></g>
-          <g class="rp" style="--ra:180deg;--td:.36s"><ellipse cx="110" cy="50" rx="24" ry="46" fill="#e7a9ba"/></g>
-          <g class="rp" style="--ra:225deg;--td:.45s"><ellipse cx="110" cy="50" rx="24" ry="46" fill="#edbcc9"/></g>
-          <g class="rp" style="--ra:270deg;--td:.54s"><ellipse cx="110" cy="50" rx="24" ry="46" fill="#e29db0"/></g>
-          <g class="rp" style="--ra:315deg;--td:.63s"><ellipse cx="110" cy="50" rx="24" ry="46" fill="#f3cdd6"/></g>
-          <g class="rose-core"><circle cx="110" cy="92" r="17" fill="#cf9f4d"/><circle cx="104" cy="86" r="5" fill="#ecd9b0"/></g>
-        </g>
-      </svg>
+    <div id="finalGarden" class="reveal" role="button" tabindex="0" aria-label="Tocar la rosa y pedir un deseo">
+      <div class="gflower gf-rose" style="animation:sway1 5s linear infinite">
+        <div class="gf-head">
+          <div class="gf-petal gf-petal--1"></div>
+          <div class="gf-petal gf-petal--2"></div>
+          <div class="gf-petal gf-petal--3"></div>
+          <div class="gf-petal gf-petal--4"></div>
+          <div class="gf-circle"></div>
+          <div class="gf-light gf-light--1"></div><div class="gf-light gf-light--2"></div>
+          <div class="gf-light gf-light--3"></div><div class="gf-light gf-light--4"></div>
+          <div class="gf-light gf-light--5"></div><div class="gf-light gf-light--6"></div>
+        </div>
+        <div class="gf-stem">
+          <div class="gf-sleaf gf-sleaf--1"></div>
+          <div class="gf-sleaf gf-sleaf--3"></div>
+        </div>
+      </div>
     </div>
-    <p class="rose-hint reveal" id="roseHint">Toca la rosa y pide un deseo ✿</p>
+    <p class="rose-hint reveal" id="roseHint">Toca la tierra, siembra la rosa y pide un deseo ✿</p>
     <div class="wish" id="wish">¡Feliz cumpleaños,<br>Priscila Mabel!</div>
 
     <p class="sig-pre reveal">Con todo mi cariño, mi gratitud, mi respeto y el amor más sincero que llevo en el corazón,</p>
@@ -654,83 +859,72 @@ footer{
 
 </main>
 
-<footer>— un jardín sembrado para ti ❀ —</footer>
+<footer>— un jardín que florece de noche, sembrado para ti ✿ —</footer>
 
 <script>
 (function(){
   'use strict';
   var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* ── watercolor washes ── */
-  var washes = document.getElementById('washes');
-  var washDefs = [
-    {c:'rgba(243,205,214,.85)', w:62, x:-14, y:-6,  d:26},
-    {c:'rgba(221,210,236,.8)',  w:55, x:62,  y:8,   d:32},
-    {c:'rgba(211,226,207,.75)', w:58, x:-10, y:42,  d:29},
-    {c:'rgba(240,191,160,.55)', w:46, x:66,  y:48,  d:35},
-    {c:'rgba(243,205,214,.7)',  w:60, x:18,  y:74,  d:31},
-    {c:'rgba(221,210,236,.7)',  w:50, x:-12, y:88,  d:27}
-  ];
-  washDefs.forEach(function(d){
-    var el = document.createElement('div');
-    el.className = 'wash';
-    el.style.cssText = 'width:'+d.w+'vmax;aspect-ratio:1;left:'+d.x+'%;top:'+d.y+'%;'+
-      'background:radial-gradient(closest-side,'+d.c+',transparent 72%);animation-duration:'+d.d+'s;';
-    washes.appendChild(el);
-  });
+  /* ── stars ── */
+  var sky = document.getElementById('sky');
+  for(var i=0;i<110;i++){
+    var s = document.createElement('span');
+    s.className = 'star';
+    var sz = Math.random()*1.8 + .6;
+    s.style.cssText = 'left:'+(Math.random()*100)+'%;top:'+(Math.random()*88)+'%;'+
+      'width:'+sz+'px;height:'+sz+'px;'+
+      'animation-duration:'+(1.6+Math.random()*3)+'s;animation-delay:'+(Math.random()*4)+'s;'+
+      'opacity:'+(0.2+Math.random()*0.6)+';';
+    sky.appendChild(s);
+  }
 
-  /* ── chapter flowers (injected inline SVG) ── */
-  var palettes = {
-    rose:['#e7a9ba','#edbcc9','#e29db0'],
-    lav: ['#c3b1de','#d3c5e8','#b39fd2'],
-    sage:['#aac6a4','#c0d6ba','#9ab894'],
-    gold:['#e4c184','#eed4a4','#d9b06a']
-  };
-  document.querySelectorAll('[data-flower]').forEach(function(slot){
-    var p = palettes[slot.dataset.flower] || palettes.rose;
-    var petals = '';
-    for(var i=0;i<6;i++){
-      petals += '<g class="fm-petal" style="--ra:'+(i*60)+'deg;--td:'+(i*0.09)+'s">'+
-        '<ellipse cx="60" cy="26" rx="11" ry="22" fill="'+p[i%3]+'"/></g>';
-    }
+  /* ── mini chapter flowers ── */
+  document.querySelectorAll('[data-mini]').forEach(function(slot){
+    var kind = slot.dataset.mini;
     slot.innerHTML =
-      '<svg viewBox="0 0 120 110">'+
-      '<path class="fm-stem" d="M60 104 Q58 78 60 46" stroke="#8fae8b" stroke-width="3" fill="none" stroke-linecap="round"/>'+
-      '<g class="fm-leaf"><path d="M60 84 Q44 80 39 67 Q55 69 60 80 Z" fill="#a8c2a2"/></g>'+
-      petals+
-      '<g class="fm-core"><circle cx="60" cy="46" r="8" fill="#cf9f4d"/></g>'+
-      '</svg>';
+      '<div class="mf gf-'+kind+'">'+
+        '<div class="mf-stem"></div>'+
+        '<div class="mf-head">'+
+          '<div class="mf-petal mf-petal--1"></div>'+
+          '<div class="mf-petal mf-petal--2"></div>'+
+          '<div class="mf-petal mf-petal--3"></div>'+
+          '<div class="mf-circle"></div>'+
+          '<div class="mf-light mf-light--1"></div>'+
+          '<div class="mf-light mf-light--2"></div>'+
+        '</div>'+
+      '</div>';
   });
 
-  /* ── branch dividers (injected inline SVG) ── */
+  /* ── branch dividers ── */
   document.querySelectorAll('[data-branch]').forEach(function(slot){
     slot.innerHTML =
       '<svg viewBox="0 0 240 36">'+
-      '<path class="br-line" d="M10 22 Q60 8 120 20 Q180 32 230 16" stroke="#9db89a" stroke-width="2" fill="none" stroke-linecap="round"/>'+
-      '<g class="br-leaf l1"><ellipse cx="55" cy="12" rx="7" ry="3.6" fill="#aac6a4" transform="rotate(-26 55 12)"/></g>'+
-      '<g class="br-leaf l2"><ellipse cx="105" cy="22" rx="7" ry="3.6" fill="#c0d6ba" transform="rotate(18 105 22)"/></g>'+
-      '<g class="br-leaf l3"><ellipse cx="155" cy="22" rx="7" ry="3.6" fill="#aac6a4" transform="rotate(-14 155 22)"/></g>'+
-      '<g class="br-leaf l4"><circle cx="200" cy="17" r="4" fill="#e7a9ba"/></g>'+
+      '<path class="br-line" d="M10 22 Q60 8 120 20 Q180 32 230 16" stroke="#5fae84" stroke-width="2" fill="none" stroke-linecap="round"/>'+
+      '<g class="br-leaf l1"><ellipse cx="55" cy="12" rx="7" ry="3.6" fill="#7ed4a0" transform="rotate(-26 55 12)" opacity=".85"/></g>'+
+      '<g class="br-leaf l2"><ellipse cx="105" cy="22" rx="7" ry="3.6" fill="#5fae84" transform="rotate(18 105 22)" opacity=".85"/></g>'+
+      '<g class="br-leaf l3"><ellipse cx="155" cy="22" rx="7" ry="3.6" fill="#7ed4a0" transform="rotate(-14 155 22)" opacity=".85"/></g>'+
+      '<g class="br-leaf l4"><circle cx="200" cy="17" r="4" fill="#f5a8c5"/></g>'+
       '</svg>';
   });
 
-  /* ── intro bloom ── */
+  /* ── position hero flowers (demo offsets) ── */
+  var gfs = document.querySelectorAll('#hero .gflower');
+  if(gfs[1]) gfs[1].style.left = '62%';
+  if(gfs[2]) gfs[2].style.left = '36%';
+
+  /* ── intro: light the garden ── */
   var intro = document.getElementById('intro');
-  var bud = document.getElementById('budWrap');
+  var btn = document.getElementById('lightBtn');
   var opened = false;
-  function openGarden(){
+  btn.addEventListener('click', function(){
     if(opened) return; opened = true;
-    bud.classList.add('bloomed');
-    setTimeout(function(){
-      intro.classList.add('gone');
-      document.body.classList.remove('locked');
-      startAmbient();
-      spawnButterflies();
-    }, 1900);
-    setTimeout(function(){ intro.style.display = 'none'; }, 3400);
-  }
-  bud.addEventListener('click', openGarden);
-  bud.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' ') openGarden(); });
+    intro.classList.add('gone');
+    document.body.classList.remove('locked');
+    document.body.classList.remove('not-bloomed');
+    startFireflies();
+    setTimeout(function(){ intro.style.display = 'none'; }, 1800);
+  });
 
   /* ── scroll reveal ── */
   var io = new IntersectionObserver(function(entries){
@@ -738,76 +932,37 @@ footer{
       if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
     });
   }, {threshold:.12, rootMargin:'0px 0px -36px 0px'});
-  document.querySelectorAll('.reveal, .branch, .eres-box, #hero').forEach(function(el){ io.observe(el); });
+  document.querySelectorAll('.reveal, .branch, .eres-box, .chap-head').forEach(function(el){ io.observe(el); });
 
-  /* ── progress butterfly ── */
+  /* ── progress ── */
   var fill = document.getElementById('progressFill');
-  var bee = document.getElementById('progressBee');
+  var dot = document.getElementById('progressDot');
   window.addEventListener('scroll', function(){
     var h = document.documentElement;
     var p = h.scrollTop / (h.scrollHeight - h.clientHeight);
     fill.style.width = (p*100) + '%';
-    bee.style.left = (p*100) + '%';
+    dot.style.left = (p*100) + '%';
   }, {passive:true});
 
-  /* ── ambient petals ── */
-  var petalColors = [
-    'linear-gradient(135deg,#e7a9ba,#f3cdd6)',
-    'linear-gradient(135deg,#c3b1de,#ddd2ec)',
-    'linear-gradient(135deg,#f0bfa0,#f7ddc9)',
-    'linear-gradient(135deg,#aac6a4,#d3e2cf)'
-  ];
-  function spawnAmbPetal(){
+  /* ── fireflies ── */
+  function spawnFirefly(){
     if(document.hidden || reduced) return;
-    var p = document.createElement('div');
-    p.className = 'amb-petal';
-    var s = 8 + Math.random()*10;
-    p.style.cssText = 'left:'+(Math.random()*100)+'vw;width:'+s+'px;height:'+s+'px;'+
-      'background:'+petalColors[Math.floor(Math.random()*petalColors.length)]+';'+
-      '--sway:'+((Math.random()*16-8))+'vw;--spin:'+(180+Math.random()*420)+'deg;'+
-      'animation-duration:'+(9+Math.random()*8)+'s;';
-    document.body.appendChild(p);
-    setTimeout(function(){ p.remove(); }, 18000);
+    var f = document.createElement('div');
+    f.className = 'firefly' + (Math.random() < .35 ? ' pink' : '');
+    f.style.cssText = 'left:'+(Math.random()*100)+'vw;'+
+      '--dx1:'+((Math.random()*30-15))+'vw;--dx2:'+((Math.random()*40-20))+'vw;'+
+      'animation-duration:'+(8+Math.random()*8)+'s;';
+    document.body.appendChild(f);
+    setTimeout(function(){ f.remove(); }, 17000);
   }
-  var ambOn = false;
-  function startAmbient(){
-    if(ambOn) return; ambOn = true;
-    for(var i=0;i<3;i++) setTimeout(spawnAmbPetal, i*1100);
-    setInterval(spawnAmbPetal, 2800);
+  var ffOn = false;
+  function startFireflies(){
+    if(ffOn) return; ffOn = true;
+    for(var i=0;i<4;i++) setTimeout(spawnFirefly, i*700);
+    setInterval(spawnFirefly, 1900);
   }
 
-  /* ── butterflies ── */
-  function butterflySVG(c1,c2){
-    return '<svg viewBox="0 0 34 34">'+
-      '<g class="bw"><ellipse cx="10" cy="13" rx="9" ry="7" fill="'+c1+'" transform="rotate(-22 10 13)"/>'+
-      '<ellipse cx="24" cy="13" rx="9" ry="7" fill="'+c1+'" transform="rotate(22 24 13)"/>'+
-      '<ellipse cx="11" cy="23" rx="6.5" ry="5" fill="'+c2+'" transform="rotate(-30 11 23)"/>'+
-      '<ellipse cx="23" cy="23" rx="6.5" ry="5" fill="'+c2+'" transform="rotate(30 23 23)"/></g>'+
-      '<rect x="16" y="9" width="2.4" height="18" rx="1.2" fill="#6b5848"/></svg>';
-  }
-  function spawnButterflies(){
-    if(reduced) return;
-    [['rgba(217,138,158,.85)','rgba(243,205,214,.9)'],
-     ['rgba(164,139,196,.85)','rgba(221,210,236,.9)']].forEach(function(c,idx){
-      var b = document.createElement('div');
-      b.className = 'butterfly';
-      b.innerHTML = butterflySVG(c[0],c[1]);
-      document.body.appendChild(b);
-      var t = Math.random()*100 + idx*50;
-      var x = Math.random()*innerWidth, y = Math.random()*innerHeight*0.6 + 40;
-      (function fly(){
-        t += 0.012 + idx*0.003;
-        var tx = innerWidth*0.5 + Math.sin(t*0.7)*innerWidth*0.38;
-        var ty = innerHeight*0.4 + Math.cos(t*0.53)*innerHeight*0.3 + Math.sin(t*2.1)*22;
-        x += (tx-x)*0.012; y += (ty-y)*0.012;
-        var dir = (tx-x) > 0 ? 1 : -1;
-        b.style.transform = 'translate('+x+'px,'+y+'px) scaleX('+dir+') rotate('+Math.sin(t*1.4)*14+'deg)';
-        requestAnimationFrame(fly);
-      })();
-    });
-  }
-
-  /* ── fruit blooms ── */
+  /* ── fruit cards ── */
   document.querySelectorAll('[data-bloom]').forEach(function(card){
     card.addEventListener('click', function(){ card.classList.toggle('open'); });
   });
@@ -825,20 +980,20 @@ footer{
     }, 500);
   }, 3000);
 
-  /* ── finale rose + petal rain ── */
-  var rose = document.getElementById('roseWrap');
+  /* ── finale: plant the rose + glowing petal rain ── */
+  var fg = document.getElementById('finalGarden');
   var wish = document.getElementById('wish');
   var hint = document.getElementById('roseHint');
-  var bloomed = false;
-  function bloomRose(){
-    if(bloomed) return; bloomed = true;
-    rose.classList.add('bloomed');
+  var lit = false;
+  function plant(){
+    if(lit) return; lit = true;
+    fg.classList.add('lit');
     hint.classList.add('gone');
-    setTimeout(function(){ wish.classList.add('show'); }, 800);
-    petalRain();
+    setTimeout(function(){ wish.classList.add('show'); }, 2400);
+    setTimeout(petalRain, 2000);
   }
-  rose.addEventListener('click', bloomRose);
-  rose.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' ') bloomRose(); });
+  fg.addEventListener('click', plant);
+  fg.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' ') plant(); });
 
   var canvas = document.getElementById('petalCanvas');
   var ctx = canvas.getContext('2d');
@@ -846,7 +1001,7 @@ footer{
   resize(); window.addEventListener('resize', resize);
 
   function petalRain(){
-    var cols = ['#e7a9ba','#edbcc9','#c3b1de','#ddd2ec','#f0bfa0','#f3cdd6'];
+    var cols = ['#f5a8c5','#ffd3e4','#c9aef5','#e6d8ff','#f0cc8b','#ffe9bd'];
     var petals = [];
     function add(n, burst){
       for(var i=0;i<n;i++){
@@ -855,12 +1010,12 @@ footer{
           y: burst ? canvas.height*0.5 : -20 - Math.random()*80,
           vx: burst ? (Math.random()-.5)*7 : 0,
           vy: burst ? -(Math.random()*8+3) : Math.random()*1.2+0.8,
-          rx: 5+Math.random()*6,
+          rx: 4.5+Math.random()*5.5,
           r: Math.random()*Math.PI*2,
           vr: (Math.random()-.5)*0.09,
           ph: Math.random()*Math.PI*2,
           c: cols[Math.floor(Math.random()*cols.length)],
-          o: .75+Math.random()*.25
+          o: .7+Math.random()*.3
         });
       }
     }
@@ -888,6 +1043,8 @@ footer{
         ctx.rotate(p.r);
         ctx.globalAlpha = p.o;
         ctx.fillStyle = p.c;
+        ctx.shadowColor = p.c;
+        ctx.shadowBlur = 10;
         ctx.beginPath();
         ctx.ellipse(0, 0, p.rx, p.rx*0.55, 0, 0, Math.PI*2);
         ctx.fill();
