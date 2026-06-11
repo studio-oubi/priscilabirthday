@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Para Priscila Mabel ❀ Un jardín para ti</title>
+<meta name="description" content="Una carta-jardín para ti, en tu día.">
+<meta name="theme-color" content="#fdf9f2">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Pinyon+Script&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#fdf9f2;
+  --paper-deep:#f7efe2;
+  --ink:#4a3a40;
+  --ink-soft:#7a6470;
+  --rose:#d98a9e;
+  --rose-deep:#b95f7c;
+  --rose-pale:#f3cdd6;
+  --lav:#a48bc4;
+  --lav-pale:#ddd2ec;
+  --sage:#8fae8b;
+  --sage-pale:#d3e2cf;
+  --gold:#cf9f4d;
+  --gold-pale:#ecd9b0;
+  --peach:#f0bfa0;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{
+  font-family:'EB Garamond',serif;
+  background:var(--paper);
+  color:var(--ink);
+  font-size:1.22rem;
+  line-height:1.8;
+  overflow-x:hidden;
+}
+body.locked{overflow:hidden;height:100dvh}
+::selection{background:var(--rose-pale);color:var(--rose-deep)}
+
+/* ═══════════ WATERCOLOR ATMOSPHERE ═══════════ */
+#washes{position:fixed;inset:-12%;z-index:0;pointer-events:none;filter:url(#wc)}
+.wash{
+  position:absolute;border-radius:50%;
+  opacity:.5;mix-blend-mode:multiply;
+  animation:washDrift ease-in-out infinite alternate;
+}
+@keyframes washDrift{
+  from{transform:translate(0,0) scale(1)}
+  to{transform:translate(4%,3%) scale(1.07)}
+}
+#grain{
+  position:fixed;inset:0;z-index:60;pointer-events:none;opacity:.5;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0.45 0 0 0 0 0.35 0 0 0 0 0.3 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='240' height='240' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ambient falling petals */
+.amb-petal{
+  position:fixed;top:-6vh;z-index:4;pointer-events:none;
+  border-radius:150% 0 150% 0;
+  animation:petalFall linear forwards;
+  opacity:0;
+}
+@keyframes petalFall{
+  0%{transform:translate(0,0) rotate(0deg);opacity:0}
+  6%{opacity:.75}
+  88%{opacity:.6}
+  100%{transform:translate(var(--sway),106vh) rotate(var(--spin));opacity:0}
+}
+
+/* ═══════════ PROGRESS VINE ═══════════ */
+#progressTrack{
+  position:fixed;top:0;left:0;width:100%;height:4px;z-index:90;
+  background:linear-gradient(90deg,rgba(217,138,158,.12),rgba(164,139,196,.12));
+}
+#progressFill{
+  height:100%;width:0%;
+  background:linear-gradient(90deg,var(--sage),var(--rose),var(--lav));
+  transition:width .12s linear;
+}
+#progressBee{
+  position:fixed;top:-4px;left:0;z-index:91;font-size:15px;
+  transform:translateX(-50%);transition:left .12s linear;
+  filter:drop-shadow(0 1px 2px rgba(74,58,64,.25));
+}
+
+/* ═══════════ INTRO — THE BUD ═══════════ */
+#intro{
+  position:fixed;inset:0;z-index:100;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:
+    radial-gradient(60% 50% at 30% 20%,rgba(243,205,214,.5),transparent 70%),
+    radial-gradient(55% 45% at 75% 75%,rgba(221,210,236,.45),transparent 70%),
+    radial-gradient(45% 40% at 80% 15%,rgba(211,226,207,.4),transparent 70%),
+    var(--paper);
+  transition:opacity 1.4s ease,visibility 1.4s;
+  padding:24px;text-align:center;
+}
+#intro.gone{opacity:0;visibility:hidden;pointer-events:none}
+.intro-eyebrow{
+  font-family:'Fraunces',serif;font-weight:300;font-style:italic;
+  font-size:1rem;letter-spacing:.14em;color:var(--ink-soft);
+  animation:riseIn 1.4s .2s ease both;
+}
+.intro-name{
+  font-family:'Pinyon Script',cursive;
+  font-size:clamp(3rem,13vw,5.2rem);line-height:1.15;
+  color:var(--rose-deep);
+  animation:riseIn 1.4s .45s ease both;
+  margin-bottom:8px;
+}
+@keyframes riseIn{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:translateY(0)}}
+
+#budWrap{
+  position:relative;margin-top:34px;cursor:pointer;
+  animation:riseIn 1.4s .8s ease both;
+  -webkit-user-select:none;user-select:none;
+}
+#budWrap svg{display:block;width:min(190px,46vw);height:auto;overflow:visible}
+#budWrap .breathe{animation:breathe 3.2s ease-in-out infinite;transform-origin:50% 78%}
+@keyframes breathe{0%,100%{transform:scale(1) rotate(-1.5deg)}50%{transform:scale(1.05) rotate(1.5deg)}}
+.bud-petal{
+  transform-origin:100px 96px;
+  transform:scale(.16) rotate(var(--ra));
+  transition:transform 1.5s cubic-bezier(.2,1.4,.3,1);
+  transition-delay:var(--td);
+}
+#budWrap.bloomed .bud-petal{transform:scale(1) rotate(var(--ra))}
+#budWrap.bloomed .breathe{animation:none}
+.bud-core{transform-origin:100px 96px;transition:transform 1.2s .5s cubic-bezier(.2,1.4,.3,1)}
+#budWrap.bloomed .bud-core{transform:scale(1.25)}
+.ripple{
+  position:absolute;left:50%;top:42%;width:30px;height:30px;border-radius:50%;
+  transform:translate(-50%,-50%) scale(0);pointer-events:none;
+  border:2px solid var(--rose);opacity:0;
+}
+#budWrap.bloomed .ripple{animation:rip 1.6s ease-out forwards}
+#budWrap.bloomed .ripple:nth-child(2){animation-delay:.25s;border-color:var(--lav)}
+#budWrap.bloomed .ripple:nth-child(3){animation-delay:.5s;border-color:var(--sage)}
+@keyframes rip{0%{transform:translate(-50%,-50%) scale(0);opacity:.8}100%{transform:translate(-50%,-50%) scale(14);opacity:0}}
+.intro-hint{
+  margin-top:30px;font-family:'Fraunces',serif;font-style:italic;font-weight:300;
+  font-size:.95rem;letter-spacing:.1em;color:var(--ink-soft);
+  animation:riseIn 1.4s 1.1s ease both, soft-blink 2.6s 2.2s ease-in-out infinite;
+}
+@keyframes soft-blink{0%,100%{opacity:1}50%{opacity:.35}}
+
+/* ═══════════ LAYOUT ═══════════ */
+main{position:relative;z-index:10}
+.section{max-width:660px;margin:0 auto;padding:clamp(60px,13vw,120px) clamp(24px,6vw,40px)}
+.section p{margin-bottom:1.5em}
+.section p:last-child{margin-bottom:0}
+
+/* chapter headers */
+.chap-head{text-align:center;margin-bottom:46px}
+.chap-flower{height:74px;display:flex;justify-content:center;margin-bottom:6px}
+.chap-flower svg{height:100%;width:auto;overflow:visible}
+.chap-num{
+  font-family:'Fraunces',serif;font-weight:300;font-size:.8rem;
+  letter-spacing:.5em;text-transform:uppercase;color:var(--gold);
+  margin-bottom:8px;
+}
+.chap-title{
+  font-family:'Fraunces',serif;font-weight:500;font-style:italic;
+  font-size:clamp(1.9rem,7vw,2.7rem);line-height:1.2;color:var(--ink);
+}
+.chap-title .script{
+  font-family:'Pinyon Script',cursive;font-style:normal;font-weight:400;
+  font-size:1.25em;color:var(--rose-deep);
+}
+
+/* flower mark animation */
+.fm-petal{transform-origin:60px 46px;transform:scale(0) rotate(var(--ra));transition:transform 1.1s cubic-bezier(.2,1.5,.35,1);transition-delay:var(--td)}
+.fm-core{transform-origin:60px 46px;transform:scale(0);transition:transform .8s .55s cubic-bezier(.2,1.5,.35,1)}
+.fm-stem{stroke-dasharray:60;stroke-dashoffset:60;transition:stroke-dashoffset 1.2s ease}
+.fm-leaf{transform-origin:60px 80px;transform:scale(0);transition:transform .9s .7s cubic-bezier(.2,1.5,.35,1)}
+.in .fm-petal{transform:scale(1) rotate(var(--ra))}
+.in .fm-core{transform:scale(1)}
+.in .fm-stem{stroke-dashoffset:0}
+.in .fm-leaf{transform:scale(1)}
+
+/* drop caps */
+p.lead::first-letter{
+  font-family:'Fraunces',serif;font-weight:600;font-style:italic;
+  font-size:3.3em;float:left;line-height:.78;
+  padding:.08em .12em 0 0;color:var(--rose-deep);
+}
+
+/* branch dividers */
+.branch{display:flex;justify-content:center;padding:6px 0}
+.branch svg{width:min(240px,62vw);height:auto;overflow:visible}
+.br-line{stroke-dasharray:230;stroke-dashoffset:230;transition:stroke-dashoffset 1.6s ease}
+.br-leaf{transform-origin:center;transform:scale(0);transition:transform .8s cubic-bezier(.2,1.5,.35,1)}
+.br-leaf.l1{transition-delay:.5s}.br-leaf.l2{transition-delay:.7s}.br-leaf.l3{transition-delay:.9s}.br-leaf.l4{transition-delay:1.1s}
+.branch.in .br-line{stroke-dashoffset:0}
+.branch.in .br-leaf{transform:scale(1)}
+
+/* reveal */
+.reveal{opacity:0;transform:translateY(36px);transition:opacity 1.05s ease,transform 1.05s ease}
+.reveal.in{opacity:1;transform:translateY(0)}
+.reveal.d1{transition-delay:.12s}.reveal.d2{transition-delay:.24s}.reveal.d3{transition-delay:.36s}
+
+/* quotes — watercolor cards */
+.quote{
+  position:relative;margin:2em auto;padding:38px 28px;
+  font-family:'Fraunces',serif;font-style:italic;font-weight:400;
+  font-size:clamp(1.35rem,5vw,1.8rem);line-height:1.5;text-align:center;
+  color:var(--ink);
+}
+.quote-wash{
+  position:absolute;inset:0;z-index:-1;filter:url(#wc);
+  border-radius:58% 42% 55% 45%/48% 56% 44% 52%;
+  opacity:.55;
+}
+.quote.rose .quote-wash{background:radial-gradient(70% 70% at 40% 35%,var(--rose-pale),rgba(243,205,214,.25) 75%)}
+.quote.lav .quote-wash{background:radial-gradient(70% 70% at 60% 40%,var(--lav-pale),rgba(221,210,236,.25) 75%)}
+.quote em{font-family:'Pinyon Script',cursive;font-style:normal;font-size:1.3em;color:var(--rose-deep)}
+.quote::before{
+  content:'❀';display:block;font-style:normal;
+  color:var(--rose);font-size:1.1rem;margin-bottom:14px;letter-spacing:.5em;
+}
+
+/* ═══════════ HERO ═══════════ */
+#hero{
+  min-height:94dvh;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;text-align:center;
+  padding:46px 24px;position:relative;
+}
+.hero-splash{
+  position:absolute;z-index:-1;border-radius:50%;filter:url(#wc);
+  opacity:0;transition:opacity 1.6s ease,transform 2.2s cubic-bezier(.2,1,.3,1);
+  transform:scale(.4);mix-blend-mode:multiply;
+}
+.hero-splash.s1{width:74vw;max-width:430px;aspect-ratio:1;background:radial-gradient(closest-side,rgba(243,205,214,.85),transparent);top:16%;left:-6%}
+.hero-splash.s2{width:60vw;max-width:340px;aspect-ratio:1;background:radial-gradient(closest-side,rgba(221,210,236,.8),transparent);bottom:18%;right:-8%}
+.hero-splash.s3{width:42vw;max-width:240px;aspect-ratio:1;background:radial-gradient(closest-side,rgba(211,226,207,.75),transparent);top:10%;right:6%}
+#hero.in .hero-splash{opacity:1;transform:scale(1)}
+.hero-eyebrow{
+  font-family:'Fraunces',serif;font-weight:300;font-size:.82rem;
+  letter-spacing:.45em;text-transform:uppercase;color:var(--ink-soft);
+  margin-bottom:14px;
+}
+.hero-name{
+  font-family:'Pinyon Script',cursive;font-weight:400;
+  font-size:clamp(3.6rem,16vw,7rem);line-height:1.1;
+  color:var(--rose-deep);
+  text-shadow:0 2px 24px rgba(217,138,158,.25);
+}
+.hero-sub{
+  font-family:'Fraunces',serif;font-style:italic;font-weight:300;
+  font-size:clamp(1.1rem,4.4vw,1.45rem);color:var(--ink-soft);
+  max-width:460px;margin-top:24px;
+}
+.hero-cue{
+  margin-top:56px;font-family:'Fraunces',serif;font-style:italic;
+  font-size:.9rem;color:var(--sage);letter-spacing:.08em;
+}
+.hero-cue .pet{
+  display:block;width:14px;height:14px;margin:12px auto 0;
+  background:linear-gradient(135deg,var(--rose),var(--rose-pale));
+  border-radius:150% 0 150% 0;
+  animation:cueFall 2.2s ease-in-out infinite;
+}
+@keyframes cueFall{0%{transform:translateY(0) rotate(0);opacity:0}30%{opacity:1}100%{transform:translateY(26px) rotate(160deg);opacity:0}}
+
+/* ═══════════ FRUITS GARDEN ═══════════ */
+.garden{display:grid;grid-template-columns:1fr;gap:16px;margin-top:38px}
+@media(min-width:600px){.garden{grid-template-columns:1fr 1fr}}
+.bloom-card{
+  position:relative;cursor:pointer;border-radius:22px;
+  padding:20px 22px;overflow:hidden;
+  background:rgba(255,253,248,.72);
+  border:1px solid rgba(207,159,77,.18);
+  box-shadow:0 8px 24px -14px rgba(74,58,64,.25);
+  transition:transform .35s ease,box-shadow .35s ease,border-color .35s ease;
+}
+.bloom-card:active{transform:scale(.975)}
+.bloom-card::before{
+  content:'';position:absolute;top:-30%;right:-22%;width:65%;aspect-ratio:1;
+  border-radius:50%;filter:url(#wc);mix-blend-mode:multiply;
+  background:radial-gradient(closest-side,var(--tint),transparent);
+  opacity:.55;transition:transform .6s ease,opacity .6s ease;
+  transform:scale(.8);
+}
+.bloom-card.open{border-color:var(--tint);box-shadow:0 14px 34px -14px rgba(74,58,64,.3)}
+.bloom-card.open::before{transform:scale(1.5);opacity:.8}
+.bloom-head{display:flex;align-items:center;gap:14px;position:relative}
+.bloom-ico{
+  width:38px;height:38px;flex:none;display:flex;align-items:center;justify-content:center;
+  font-size:1.5rem;transition:transform .7s cubic-bezier(.2,1.4,.35,1);
+}
+.bloom-card.open .bloom-ico{transform:rotate(360deg) scale(1.18)}
+.bloom-name{
+  font-family:'Fraunces',serif;font-weight:500;font-size:1.05rem;
+  letter-spacing:.06em;color:var(--ink);flex:1;
+}
+.bloom-chev{color:var(--gold);font-size:.8rem;transition:transform .45s ease}
+.bloom-card.open .bloom-chev{transform:rotate(180deg)}
+.bloom-body{
+  max-height:0;overflow:hidden;opacity:0;position:relative;
+  transition:max-height .6s ease,opacity .5s ease,margin .45s ease;
+  font-style:italic;color:var(--ink-soft);font-size:1.06rem;line-height:1.7;
+}
+.bloom-card.open .bloom-body{max-height:320px;opacity:1;margin-top:13px}
+.garden-hint{
+  text-align:center;font-family:'Fraunces',serif;font-style:italic;
+  font-size:.92rem;color:var(--sage);margin-top:24px;letter-spacing:.06em;
+}
+
+/* ═══════════ ERES ═══════════ */
+.eres-box{position:relative;text-align:center;padding:36px 0 14px}
+.eres-splash{
+  position:absolute;left:50%;top:55%;transform:translate(-50%,-50%) scale(.5);
+  width:min(330px,82vw);aspect-ratio:1.5;border-radius:50%;
+  filter:url(#wc);mix-blend-mode:multiply;z-index:-1;opacity:0;
+  background:radial-gradient(closest-side,rgba(243,205,214,.8),transparent);
+  transition:opacity 1.4s ease,transform 1.8s cubic-bezier(.2,1,.3,1);
+}
+.eres-box.in .eres-splash{opacity:1;transform:translate(-50%,-50%) scale(1)}
+.eres-fixed{font-family:'Fraunces',serif;font-style:italic;font-size:1.35rem;color:var(--ink-soft)}
+.eres-word{
+  display:block;font-family:'Pinyon Script',cursive;
+  font-size:clamp(2.6rem,11vw,4.2rem);color:var(--rose-deep);
+  min-height:1.45em;line-height:1.35;
+  transition:opacity .5s ease,transform .5s ease,filter .5s ease;
+}
+.eres-word.swap{opacity:0;transform:translateY(16px);filter:blur(4px)}
+
+/* ═══════════ FINALE ═══════════ */
+#finale{text-align:center}
+#roseWrap{
+  position:relative;margin:46px auto 0;cursor:pointer;width:min(230px,58vw);
+  -webkit-user-select:none;user-select:none;
+}
+#roseWrap svg{display:block;width:100%;height:auto;overflow:visible}
+#roseWrap .sway{animation:roseSway 4.5s ease-in-out infinite;transform-origin:50% 95%}
+@keyframes roseSway{0%,100%{transform:rotate(-2deg)}50%{transform:rotate(2deg)}}
+.rp{
+  transform-origin:110px 92px;
+  transform:scale(.18) rotate(var(--ra));
+  transition:transform 1.7s cubic-bezier(.2,1.35,.3,1);transition-delay:var(--td);
+}
+#roseWrap.bloomed .rp{transform:scale(1) rotate(var(--ra))}
+#roseWrap.bloomed .sway{animation-duration:7s}
+.rose-core{transform-origin:110px 92px;transition:transform 1.3s .6s cubic-bezier(.2,1.4,.3,1)}
+#roseWrap.bloomed .rose-core{transform:scale(1.3)}
+.rose-hint{
+  font-family:'Fraunces',serif;font-style:italic;font-size:.95rem;
+  color:var(--rose-deep);margin-top:26px;letter-spacing:.06em;
+  animation:soft-blink 2.6s ease-in-out infinite;
+  transition:opacity .6s;
+}
+.rose-hint.gone{opacity:0;animation:none}
+.wish{
+  font-family:'Pinyon Script',cursive;
+  font-size:clamp(2.6rem,11vw,4.4rem);line-height:1.25;
+  color:var(--rose-deep);margin-top:36px;
+  opacity:0;transform:scale(.85);
+  transition:opacity 1.2s .4s ease,transform 1.2s .4s cubic-bezier(.2,1.3,.4,1);
+}
+.wish.show{opacity:1;transform:scale(1)}
+.sig-pre{
+  font-style:italic;color:var(--ink-soft);font-size:1.05rem;
+  max-width:500px;margin:60px auto 4px;
+}
+.signature{
+  font-family:'Pinyon Script',cursive;font-size:clamp(2.8rem,11vw,4rem);
+  color:var(--gold);transform:rotate(-3.5deg);display:inline-block;
+}
+
+#petalCanvas{position:fixed;inset:0;pointer-events:none;z-index:70}
+
+footer{
+  position:relative;z-index:10;text-align:center;padding:34px 20px 58px;
+  font-family:'Fraunces',serif;font-style:italic;font-weight:300;
+  font-size:.85rem;letter-spacing:.18em;color:#b9a48f;
+}
+
+/* butterflies */
+.butterfly{position:fixed;z-index:50;pointer-events:none;width:34px;height:34px;will-change:transform}
+.butterfly svg{width:100%;height:100%;overflow:visible}
+.bw{animation:flap .28s ease-in-out infinite alternate;transform-origin:17px 17px}
+.bw.left{transform-origin:17px 17px}
+@keyframes flap{from{transform:scaleX(1)}to{transform:scaleX(.32)}}
+
+@media(min-width:768px){body{font-size:1.3rem}}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.25s!important}
+  .butterfly{display:none}
+}
+</style>
+</head>
+<body class="locked">
+
+<!-- watercolor edge filter -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <filter id="wc" x="-20%" y="-20%" width="140%" height="140%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.012 0.016" numOctaves="3" seed="7" result="n"/>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="55"/>
+  </filter>
+</svg>
+
+<div id="washes" aria-hidden="true"></div>
+<div id="grain" aria-hidden="true"></div>
+<canvas id="petalCanvas" aria-hidden="true"></canvas>
+
+<div id="progressTrack" aria-hidden="true"><div id="progressFill"></div></div>
+<div id="progressBee" aria-hidden="true">🦋</div>
+
+<!-- ═══════════ INTRO ═══════════ -->
+<div id="intro">
+  <p class="intro-eyebrow">Hay un jardín esperándote…</p>
+  <h1 class="intro-name">Priscila Mabel</h1>
+  <div id="budWrap" role="button" tabindex="0" aria-label="Tocar la flor para abrir la carta">
+    <span class="ripple"></span><span class="ripple"></span><span class="ripple"></span>
+    <svg viewBox="0 0 200 210" aria-hidden="true">
+      <g class="breathe">
+        <path d="M100 200 Q97 150 100 112" stroke="#8fae8b" stroke-width="4" fill="none" stroke-linecap="round"/>
+        <path d="M100 165 Q76 158 68 138 Q92 140 100 158 Z" fill="#a8c2a2"/>
+        <path d="M100 178 Q124 172 132 152 Q108 153 100 170 Z" fill="#9db89a"/>
+        <g class="bud-petal" style="--ra:0deg;--td:.05s"><ellipse cx="100" cy="58" rx="20" ry="40" fill="#e7a9ba"/></g>
+        <g class="bud-petal" style="--ra:51deg;--td:.12s"><ellipse cx="100" cy="58" rx="20" ry="40" fill="#edbcc9"/></g>
+        <g class="bud-petal" style="--ra:103deg;--td:.19s"><ellipse cx="100" cy="58" rx="20" ry="40" fill="#e29db0"/></g>
+        <g class="bud-petal" style="--ra:154deg;--td:.26s"><ellipse cx="100" cy="58" rx="20" ry="40" fill="#edbcc9"/></g>
+        <g class="bud-petal" style="--ra:206deg;--td:.33s"><ellipse cx="100" cy="58" rx="20" ry="40" fill="#e7a9ba"/></g>
+        <g class="bud-petal" style="--ra:257deg;--td:.40s"><ellipse cx="100" cy="58" rx="20" ry="40" fill="#f3cdd6"/></g>
+        <g class="bud-petal" style="--ra:309deg;--td:.47s"><ellipse cx="100" cy="58" rx="20" ry="40" fill="#e29db0"/></g>
+        <g class="bud-core"><circle cx="100" cy="96" r="15" fill="#cf9f4d"/><circle cx="95" cy="91" r="4" fill="#ecd9b0"/></g>
+      </g>
+    </svg>
+  </div>
+  <p class="intro-hint">Toca la flor para abrir tu carta ✿</p>
+</div>
+
+<main>
+
+  <!-- ═══════════ HERO ═══════════ -->
+  <section id="hero" class="reveal">
+    <div class="hero-splash s1"></div>
+    <div class="hero-splash s2"></div>
+    <div class="hero-splash s3"></div>
+    <p class="hero-eyebrow reveal">En tu cumpleaños</p>
+    <h2 class="hero-name reveal d1">Priscila Mabel</h2>
+    <p class="hero-sub reveal d2">Hay fechas que uno no puede mirar como un día más… y la tuya nunca lo será para mí.</p>
+    <div class="hero-cue reveal d3">desliza para pasear por el jardín<span class="pet"></span></div>
+  </section>
+
+  <div class="branch" data-branch></div>
+
+  <!-- ═══════════ I ═══════════ -->
+  <section class="section">
+    <header class="chap-head reveal">
+      <div class="chap-flower" data-flower="rose"></div>
+      <p class="chap-num">Capítulo I</p>
+      <h3 class="chap-title">Desde el <span class="script">corazón</span></h3>
+    </header>
+    <p class="lead reveal">Hoy me siento frente a estas palabras con el corazón lleno de muchas cosas que no sé si lograré expresar de la manera correcta, pero con el deseo sincero de dar toda la gloria a Dios y poder honrar tu vida en este día tan especial. Hay fechas que uno no puede mirar como un día más, y tu cumpleaños definitivamente nunca ha sido, ni será, un día cualquiera para mí. Es una fecha que me recuerda que Dios, en Su gracia, permitió que existieras y Él mismo permitió que tu vida tocara la mía. Él, que permitió, de alguna manera que todavía me sobrepasa, que tú seas una de las personas más importantes que Él ha puesto en mi camino.</p>
+  </section>
+
+  <div class="branch" data-branch></div>
+
+  <!-- ═══════════ II ═══════════ -->
+  <section class="section">
+    <header class="chap-head reveal">
+      <div class="chap-flower" data-flower="lav"></div>
+      <p class="chap-num">Capítulo II</p>
+      <h3 class="chap-title">A la <span class="script">distancia</span></h3>
+    </header>
+    <p class="lead reveal">Y quién iba a decir que este cumpleaños llegaría así, con tanta distancia de por medio. Quién iba a decir que estaría escribiéndote estas palabras mientras tú estás en España, lejos de esta tierra, lejos de tantas cosas conocidas, viviendo una etapa que quizás ni tú misma imaginaste de esta manera. Han pasado muchos meses desde que estás allá, y aunque la distancia física hace que todo se sienta diferente, también me ha hecho pensar mucho en lo valiente que has sido. Porque estar lejos no siempre es fácil. Cambiar de ambiente, enfrentar nuevos procesos, adaptarse, extrañar, crecer, resistir y seguir caminando requiere una fortaleza que no cualquiera tiene.</p>
+    <p class="reveal">Pero tú siempre has tenido algo especial. Siempre ha habido en ti una gracia, una luz, una capacidad de permanecer aun cuando las circunstancias no sean sencillas. Y hoy, al pensar en ti allá, en España, viviendo tu cumpleaños desde otro lugar, me nace darle gracias a Dios porque no estás sola. Me alegra profundamente saber que tu mamá está contigo, aunque sea por unos días, acompañándote, abrazándote, compartiendo contigo, recordándote de cerca ese amor de familia que tanto bien hace al corazón. De verdad espero que su presencia sea para ti un regalo de Dios, un descanso, una caricia del cielo, una forma hermosa en la que el Señor te recuerde que Él cuida de ti incluso en los detalles más tiernos.</p>
+  </section>
+
+  <div class="branch" data-branch></div>
+
+  <!-- ═══════════ III ═══════════ -->
+  <section class="section">
+    <header class="chap-head reveal">
+      <div class="chap-flower" data-flower="rose"></div>
+      <p class="chap-num">Capítulo III</p>
+      <h3 class="chap-title">Lo que <span class="script">significas</span></h3>
+    </header>
+    <p class="lead reveal">Bae, no quería dejar pasar este día sin decirte algo que llevo en el corazón con toda la sinceridad del mundo:</p>
+    <div class="quote rose reveal"><span class="quote-wash"></span>No ha habido una mujer más importante en mi vida <em>que tú</em>.</div>
+    <p class="reveal">Y no lo digo por costumbre, por nostalgia ni por querer romantizar el pasado. Lo digo porque reconozco la verdad de lo que significaste y sigues significando para mí. Tú no fuiste simplemente alguien que pasó por mi vida; tú fuiste una persona que Dios usó para marcar mi historia, para sembrar en mí cosas eternas, para mostrarme verdades que no se borran con el tiempo ni con la distancia. Tú me mostraste el evangelio. Y eso, Bae, es algo que nunca voy a tener cómo pagarte.</p>
+    <p class="reveal">No existe regalo, palabra, gesto ni carta que pueda estar a la altura de lo que significa que una persona sea instrumento de Dios para acercarte a Cristo. A través de ti pude ver el evangelio de una manera más viva, más cercana, más real. No solamente porque me hablaras de Dios, sino porque muchas veces tu propia vida me habló de Él. Tu forma de amar, de perdonar, de cuidar, de tener paciencia, de buscar la voluntad del Señor, de reconocer cuando algo no estaba bien, de volver a Sus pies, de orar, de sentir con tanta profundidad… todo eso fue predicación para mí, incluso cuando quizás tú no te dabas cuenta.</p>
+    <p class="reveal">Y por eso estaré eternamente agradecido con Dios y contigo. Porque si hay algo que no se olvida es a la persona que Dios usó para que uno pudiera verlo con otros ojos. Y tú fuiste eso para mí.</p>
+    <div class="quote lav reveal"><span class="quote-wash"></span>Fuiste luz. Fuiste instrumento. Fuiste testimonio. Fuiste, de muchas maneras, una expresión de la <em>gracia de Dios</em> en mi vida.</div>
+  </section>
+
+  <div class="branch" data-branch></div>
+
+  <!-- ═══════════ IV ═══════════ -->
+  <section class="section">
+    <header class="chap-head reveal">
+      <div class="chap-flower" data-flower="sage"></div>
+      <p class="chap-num">Capítulo IV</p>
+      <h3 class="chap-title">Te <span class="script">admiro</span></h3>
+    </header>
+    <p class="lead reveal">Admiro todo de ti, Priscila. Admiro tu corazón, porque no es un corazón común. Es un corazón sensible, profundo, tierno, capaz de ver donde otros no ven y de sentir donde otros pasan de largo. Admiro tu forma de amar, aunque muchas veces eso mismo te haya hecho vulnerable. Admiro tu manera de cuidar, de preocuparte, de estar pendiente, de entregarte con sinceridad. Admiro tu inteligencia, tu nobleza, tu dulzura, tu forma de apreciar lo sencillo y de encontrar belleza en cosas que muchas personas no notarían.</p>
+    <p class="reveal">Admiro tu resiliencia. Y mientras más pasa el tiempo, más la admiro. Porque sé que tu vida ha estado llena de procesos, de cansancios, de heridas, de momentos en los que quizás has tenido que levantarte sin tener todas las fuerzas. Pero aun así, Dios te ha sostenido. Y tú, con lágrimas o sin ellas, con claridad o con dudas, con fuerzas o sintiéndote débil, has seguido adelante. Has seguido caminando. Has seguido buscando a Dios. Has seguido siendo tú, aun cuando la vida ha intentado apagar partes hermosas de tu corazón. Eso para mí es digno de admirar.</p>
+  </section>
+
+  <div class="branch" data-branch></div>
+
+  <!-- ═══════════ V — FRUITS GARDEN ═══════════ -->
+  <section class="section">
+    <header class="chap-head reveal">
+      <div class="chap-flower" data-flower="gold"></div>
+      <p class="chap-num">Capítulo V</p>
+      <h3 class="chap-title">Los frutos <span class="script">en ti</span></h3>
+    </header>
+    <p class="lead reveal">Y algo que siempre he visto en ti, y que hoy quiero volver a decirte, es que cada uno de los frutos del Espíritu se manifiesta de una manera hermosa en tu vida.</p>
+    <div class="garden">
+      <div class="bloom-card reveal" style="--tint:var(--rose-pale)" data-bloom>
+        <div class="bloom-head"><span class="bloom-ico">🌹</span><span class="bloom-name">Amor</span><span class="bloom-chev">▾</span></div>
+        <div class="bloom-body">En ti he visto amor, no como una simple palabra, sino como una decisión, como entrega, como cuidado, como sacrificio.</div>
+      </div>
+      <div class="bloom-card reveal d1" style="--tint:var(--gold-pale)" data-bloom>
+        <div class="bloom-head"><span class="bloom-ico">🌻</span><span class="bloom-name">Gozo</span><span class="bloom-chev">▾</span></div>
+        <div class="bloom-body">He visto gozo, incluso cuando las circunstancias no han sido perfectas.</div>
+      </div>
+      <div class="bloom-card reveal" style="--tint:var(--lav-pale)" data-bloom>
+        <div class="bloom-head"><span class="bloom-ico">💐</span><span class="bloom-name">Paz</span><span class="bloom-chev">▾</span></div>
+        <div class="bloom-body">He visto paz, esa paz que nace de saber que Dios está presente aun cuando todo alrededor parece incierto.</div>
+      </div>
+      <div class="bloom-card reveal d1" style="--tint:var(--sage-pale)" data-bloom>
+        <div class="bloom-head"><span class="bloom-ico">🌿</span><span class="bloom-name">Paciencia</span><span class="bloom-chev">▾</span></div>
+        <div class="bloom-body">He visto paciencia, muchísima paciencia, incluso conmigo, incluso en momentos en los que yo no supe valorar lo que tenía delante.</div>
+      </div>
+      <div class="bloom-card reveal" style="--tint:var(--rose-pale)" data-bloom>
+        <div class="bloom-head"><span class="bloom-ico">🌸</span><span class="bloom-name">Benignidad y bondad</span><span class="bloom-chev">▾</span></div>
+        <div class="bloom-body">He visto benignidad y bondad en tu trato, en tu forma de mirar a los demás, en tu manera de no endurecerte aunque hayas tenido razones humanas para hacerlo.</div>
+      </div>
+      <div class="bloom-card reveal d1" style="--tint:var(--lav-pale)" data-bloom>
+        <div class="bloom-head"><span class="bloom-ico">🪻</span><span class="bloom-name">Fe</span><span class="bloom-chev">▾</span></div>
+        <div class="bloom-body">He visto fe en tu forma de aferrarte al Señor, aun cuando no entiendes todo.</div>
+      </div>
+      <div class="bloom-card reveal" style="--tint:var(--sage-pale)" data-bloom>
+        <div class="bloom-head"><span class="bloom-ico">🕊️</span><span class="bloom-name">Mansedumbre</span><span class="bloom-chev">▾</span></div>
+        <div class="bloom-body">He visto mansedumbre en tu corazón, en esa manera tuya de sentir sin volverte cruel, de sufrir sin perder completamente la ternura.</div>
+      </div>
+      <div class="bloom-card reveal d1" style="--tint:var(--gold-pale)" data-bloom>
+        <div class="bloom-head"><span class="bloom-ico">🌷</span><span class="bloom-name">Dominio propio</span><span class="bloom-chev">▾</span></div>
+        <div class="bloom-body">He visto dominio propio, aunque quizás tú misma no siempre lo notes, en cada vez que has decidido hacer lo correcto delante de Dios, aun cuando lo correcto no fuera lo más fácil.</div>
+      </div>
+    </div>
+    <p class="garden-hint reveal">— toca cada flor del jardín ✿ —</p>
+  </section>
+
+  <div class="branch" data-branch></div>
+
+  <!-- ═══════════ VI ═══════════ -->
+  <section class="section">
+    <header class="chap-head reveal">
+      <div class="chap-flower" data-flower="lav"></div>
+      <p class="chap-num">Capítulo VI</p>
+      <h3 class="chap-title">Doy <span class="script">gracias</span></h3>
+    </header>
+    <p class="lead reveal">No eres perfecta, como ninguno de nosotros lo es, pero hay algo de Cristo en ti que se nota. Hay una fragancia de Él en tu vida. Hay una luz que no viene de tus propias fuerzas, sino de la obra de Dios en tu corazón. Y eso es una de las cosas que más admiro de ti.</p>
+    <p class="reveal">Hoy, en tu cumpleaños, doy gracias a Dios por tu vida. Doy gracias porque Él te creó con propósito. Doy gracias porque te formó con una sensibilidad tan especial, con una belleza que va mucho más allá de lo físico, con una mente capaz, con un corazón noble y con una vida que puede bendecir a muchos. Doy gracias porque, aunque estés lejos, Él sigue estando cerca de ti. Doy gracias porque en España, aquí o en cualquier lugar del mundo donde estés, Su presencia no conoce distancias, Su amor no se limita por fronteras y Su cuidado no depende de quién esté cerca o lejos.</p>
+    <p class="reveal">Me conmueve pensar que este año tu cumpleaños te encuentra en otro país, en otra etapa, quizás con nuevos pensamientos, nuevos retos, nuevas preguntas y nuevas formas de ver la vida. Pero también me consuela saber que el mismo Dios que te sostuvo aquí es el Dios que te sostiene allá. El mismo Dios que escuchó tantas oraciones nuestras, en la iglesia, en nuestras casas y en tantos momentos donde Su presencia nos sostuvo, es el mismo Dios que te escucha ahora en España. El mismo Padre que ha cuidado tu corazón en tantas temporadas seguirá cuidándolo en esta también.</p>
+    <p class="reveal">Mi deseo es que este cumpleaños no sea solamente una fecha bonita, sino un recordatorio profundo de que Dios no ha terminado contigo. Que todo lo que has vivido, incluso lo que ha dolido, no ha sido desperdiciado en Sus manos. Que cada proceso, cada lágrima, cada espera, cada cambio y cada etapa están siendo usados por Él para formar en ti algo más hermoso. Oro para que este nuevo año de vida sea un año de sanidad, de dirección, de paz, de propósito, de puertas abiertas y de una intimidad aún más profunda con Cristo. Oro para que el Señor te abrace en los días en que te sientas fuerte, pero también en los días en que extrañes, en los días en que te sientas lejos, en los días en que las emociones pesen más de lo que puedes explicar. Oro para que Él te recuerde que tu identidad no depende de un lugar, de una etapa, de una relación, de un logro ni de una circunstancia, sino de que eres Su hija amada, comprada por Cristo, sostenida por Su gracia y guardada por Su amor.</p>
+  </section>
+
+  <div class="branch" data-branch></div>
+
+  <!-- ═══════════ VII ═══════════ -->
+  <section class="section">
+    <header class="chap-head reveal">
+      <div class="chap-flower" data-flower="rose"></div>
+      <p class="chap-num">Capítulo VII</p>
+      <h3 class="chap-title">Con <span class="script">honestidad</span></h3>
+    </header>
+    <p class="lead reveal">Bae, yo sé que hoy mi lugar en tu vida no es el mismo de antes y respeto eso. Lo respeto con dolor, pero también con conciencia. No te escribo para pedirte nada, ni para ponerte peso encima, ni para interrumpir tu paz. Te escribo porque amarte, para mí, también implica honrar tu vida, agradecerle a Dios por ti y reconocer con humildad lo que significas, aunque no me corresponda ocupar el lugar que un día soñé.</p>
+    <p class="reveal">Y aun así, no puedo mentir ni disfrazar que te sigo amando. Te amo como no he amado a nadie. Te amo con una profundidad que no se me ha ido con el tiempo ni con la distancia. Te amo desde el respeto, desde la oración, desde la gratitud, desde el silencio muchas veces, desde el reconocimiento de que Dios ha sido bueno conmigo al permitirme conocerte. Te amo sin querer obligarte a sentir lo mismo, sin querer reclamar nada, sin querer tomar un lugar que no me has dado. Te amo porque hay personas que uno ama no solo por lo que fueron, sino por lo que son delante de Dios, y tú eres una mujer profundamente valiosa.</p>
+    <p class="reveal">Sé que cometí errores. Sé que muchas veces no supe amar de la forma correcta. Sé que no siempre cuidé tu corazón como debía. Sé que hubo palabras, silencios, actitudes y momentos que te hirieron. Y aunque este mensaje no lo escribo para hacer de tu cumpleaños un día pesado, sí quiero reconocer que parte de amarte también es mirar con honestidad lo que no hice bien. Me duele saber que pude haberte hecho sentir menos amada, menos cuidada o menos importante de lo que realmente eras para mí. Porque la verdad es que siempre fuiste importante. Mucho más de lo que mis acciones a veces supieron demostrar.</p>
+    <p class="reveal">Por eso hoy, más que hablar de mí, quiero honrarte a ti. Quiero honrar a la mujer que eres. Quiero honrar tu caminar con Dios, tu proceso, tu valentía, tu sensibilidad, tu fe, tu capacidad de seguir, tu manera de amar, tu forma de mirar la vida, tu corazón. Quiero honrar todo lo que Dios ha puesto en ti y todo lo que todavía va a hacer contigo.</p>
+  </section>
+
+  <div class="branch" data-branch></div>
+
+  <!-- ═══════════ VIII ═══════════ -->
+  <section class="section">
+    <header class="chap-head reveal">
+      <div class="chap-flower" data-flower="gold"></div>
+      <p class="chap-num">Capítulo VIII</p>
+      <h3 class="chap-title">Mis deseos <span class="script">para ti</span></h3>
+    </header>
+    <p class="lead reveal">Que en este cumpleaños puedas sentirte amada. No solo por las personas que están cerca de ti, no solo por tu mamá que hoy puede acompañarte y abrazarte, sino sobre todo por Dios, que te ha amado desde antes de que nacieras. Que puedas mirar tu vida y, aun con preguntas, decir <em>«Hasta aquí me ha ayudado el Señor»</em>. Que puedas reconocer que no estás sola, que no has caminado sola, que no estás perdida, que Dios sigue escribiendo tu historia con ternura, paciencia y propósito.</p>
+    <p class="reveal">Deseo que este nuevo año sea un año donde sonrías más, donde descanses más, donde sanes más, donde te sientas más libre, donde puedas abrazar con paz lo que Dios está haciendo en ti. Deseo que tengas claridad en tus decisiones, fuerza en tus procesos, alegría en los pequeños detalles y personas correctas a tu alrededor. Deseo que España sea para ti no solo un lugar de distancia, sino también un lugar de crecimiento, de encuentros con Dios, de madurez, de nuevas memorias y de confirmaciones divinas.</p>
+    <p class="reveal">Deseo que nunca olvides lo hermosa que eres. Y no hablo solo de tu belleza externa, aunque también, ante mis ojos siempre serás la más hermosa. Hablo de esa belleza que nace de un corazón que ha sido tocado por Dios. Esa belleza que se nota en tus ojos, en tu manera de hablar, en tu forma de cuidar, en tu sensibilidad, en tu capacidad de amar con profundidad. Eres hermosa porque Dios ha puesto cosas hermosas en ti. Eres valiosa porque Cristo dio Su vida por ti. Eres suficiente porque tu identidad está en Él. Eres especial porque no hay otra Priscila, no hay otra vida como la tuya, no hay otro corazón exactamente como el tuyo.</p>
+    <p class="reveal">Nunca permitas que la distancia, las heridas, las dudas o las voces equivocadas te hagan olvidar quién eres.</p>
+    <div class="eres-box reveal">
+      <span class="eres-splash"></span>
+      <span class="eres-fixed">Eres</span>
+      <span class="eres-word" id="eresWord">hija del Dios Altísimo</span>
+    </div>
+    <p class="reveal">Eres vista por Dios incluso en los días en que te sientas invisible para el mundo. Él conoce tus lágrimas, tus anhelos, tus temores, tus luchas, tus sueños y tus oraciones más secretas. Y si Él ha cuidado de ti hasta hoy, lo seguirá haciendo mañana.</p>
+  </section>
+
+  <div class="branch" data-branch></div>
+
+  <!-- ═══════════ IX ═══════════ -->
+  <section class="section">
+    <header class="chap-head reveal">
+      <div class="chap-flower" data-flower="sage"></div>
+      <p class="chap-num">Capítulo IX</p>
+      <h3 class="chap-title">Gracias, <span class="script">Bae</span></h3>
+    </header>
+    <p class="lead reveal">Gracias, Bae. Gracias por todo lo que eres en mi vida. Gracias por todo lo que me enseñaste. Gracias por mostrarme el evangelio. Gracias por haber sido instrumento de Dios. Gracias por haberme amado en momentos en los que quizás no era fácil hacerlo. Gracias por tu paciencia, por tus oraciones, por tu ternura, por tu forma de cuidar, por tu ejemplo, por tu fe. Gracias por cada palabra que me acercó a Cristo. Gracias por cada gesto que reflejó Su amor. Gracias por cada parte de ti que Dios usó para hacerme ver que Él era real, bueno y misericordioso.</p>
+    <p class="reveal">No tengo cómo pagarte eso. Creo que nunca lo tendré. Pero sí puedo agradecerlo. Sí puedo recordarlo. Sí puedo honrarlo. Sí puedo pedirle a Dios que te bendiga más de lo que yo jamás podría hacerlo.</p>
+    <p class="reveal">Hoy le pido al Señor que te guarde en cualquier lugar donde estés. Que te rodee de Su paz. Que cuide tu entrada y tu salida. Que bendiga tus planes. Que proteja tu corazón. Que llene tus días de propósito. Que te dé descanso cuando estés cansada. Que te dé alegría cuando la nostalgia toque la puerta. Que te dé valentía cuando tengas que tomar decisiones. Que te dé consuelo cuando extrañes. Que te dé fe cuando no entiendas. Que te dé seguridad cuando dudes. Que te dé amor, del verdadero, del que nace de Él y siempre lleva a Él.</p>
+    <p class="reveal">Que Dios bendiga también a tu mamá por estar contigo en estos días. Que ese tiempo juntas sea especial, que puedan disfrutarlo, que puedan reír, conversar, abrazarse, hacer memorias lindas y sentir que Dios les regaló ese espacio justo cuando era necesario. Sé que para ella también debe ser hermoso poder acompañarte, verte, cuidarte y compartir contigo en una etapa tan distinta de tu vida.</p>
+    <p class="reveal">Bae, deseo que este cumpleaños sea hermoso. Que no sea perfecto necesariamente, pero sí lleno de la presencia de Dios. Que en medio de la distancia puedas sentirte acompañada. Que en medio de cualquier nostalgia puedas sentir gratitud. Que en medio de cualquier incertidumbre puedas recordar que Dios sigue teniendo el control. Que este día te recuerde que tu vida importa, que tu existencia bendice, que tu corazón tiene valor y que Dios todavía tiene planes preciosos contigo.</p>
+  </section>
+
+  <div class="branch" data-branch></div>
+
+  <!-- ═══════════ X — FINALE ═══════════ -->
+  <section class="section" id="finale">
+    <header class="chap-head reveal">
+      <div class="chap-flower" data-flower="rose"></div>
+      <p class="chap-num">Capítulo X</p>
+      <h3 class="chap-title">Feliz <span class="script">cumpleaños</span></h3>
+    </header>
+    <p class="lead reveal" style="text-align:left">Que el Señor te bendiga mucho, mucho, mucho. Que haga resplandecer Su rostro sobre ti, que te dé paz, que afirme tus pasos, que sane tu corazón, que multiplique tu gozo, que guarde tu fe, que nunca permita que nada ni nadie te aparte de Su amor, que sigas siendo esa mujer centrada en Cristo, sensible a Su voz, llena de gracia, llena de propósito y sostenida por Su mano.</p>
+    <p class="reveal" style="text-align:left">Y aunque hoy te escriba desde lejos, aunque la vida sea distinta, aunque las cosas no sean como un día imaginé, quiero que sepas que mi corazón sigue dando gracias a Dios por ti.</p>
+
+    <div id="roseWrap" class="reveal" role="button" tabindex="0" aria-label="Tocar la rosa">
+      <svg viewBox="0 0 220 230" aria-hidden="true">
+        <g class="sway">
+          <path d="M110 222 Q106 165 110 110" stroke="#8fae8b" stroke-width="5" fill="none" stroke-linecap="round"/>
+          <path d="M110 185 Q80 178 70 154 Q100 156 110 177 Z" fill="#a8c2a2"/>
+          <path d="M110 198 Q140 191 150 167 Q120 169 110 190 Z" fill="#9db89a"/>
+          <g class="rp" style="--ra:0deg;--td:0s"><ellipse cx="110" cy="50" rx="24" ry="46" fill="#e7a9ba"/></g>
+          <g class="rp" style="--ra:45deg;--td:.09s"><ellipse cx="110" cy="50" rx="24" ry="46" fill="#edbcc9"/></g>
+          <g class="rp" style="--ra:90deg;--td:.18s"><ellipse cx="110" cy="50" rx="24" ry="46" fill="#e29db0"/></g>
+          <g class="rp" style="--ra:135deg;--td:.27s"><ellipse cx="110" cy="50" rx="24" ry="46" fill="#f3cdd6"/></g>
+          <g class="rp" style="--ra:180deg;--td:.36s"><ellipse cx="110" cy="50" rx="24" ry="46" fill="#e7a9ba"/></g>
+          <g class="rp" style="--ra:225deg;--td:.45s"><ellipse cx="110" cy="50" rx="24" ry="46" fill="#edbcc9"/></g>
+          <g class="rp" style="--ra:270deg;--td:.54s"><ellipse cx="110" cy="50" rx="24" ry="46" fill="#e29db0"/></g>
+          <g class="rp" style="--ra:315deg;--td:.63s"><ellipse cx="110" cy="50" rx="24" ry="46" fill="#f3cdd6"/></g>
+          <g class="rose-core"><circle cx="110" cy="92" r="17" fill="#cf9f4d"/><circle cx="104" cy="86" r="5" fill="#ecd9b0"/></g>
+        </g>
+      </svg>
+    </div>
+    <p class="rose-hint reveal" id="roseHint">Toca la rosa y pide un deseo ✿</p>
+    <div class="wish" id="wish">¡Feliz cumpleaños,<br>Priscila Mabel!</div>
+
+    <p class="sig-pre reveal">Con todo mi cariño, mi gratitud, mi respeto y el amor más sincero que llevo en el corazón,</p>
+    <p class="reveal d1"><span class="signature">Oscarlo</span></p>
+  </section>
+
+</main>
+
+<footer>— un jardín sembrado para ti ❀ —</footer>
+
+<script>
+(function(){
+  'use strict';
+  var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ── watercolor washes ── */
+  var washes = document.getElementById('washes');
+  var washDefs = [
+    {c:'rgba(243,205,214,.85)', w:62, x:-14, y:-6,  d:26},
+    {c:'rgba(221,210,236,.8)',  w:55, x:62,  y:8,   d:32},
+    {c:'rgba(211,226,207,.75)', w:58, x:-10, y:42,  d:29},
+    {c:'rgba(240,191,160,.55)', w:46, x:66,  y:48,  d:35},
+    {c:'rgba(243,205,214,.7)',  w:60, x:18,  y:74,  d:31},
+    {c:'rgba(221,210,236,.7)',  w:50, x:-12, y:88,  d:27}
+  ];
+  washDefs.forEach(function(d){
+    var el = document.createElement('div');
+    el.className = 'wash';
+    el.style.cssText = 'width:'+d.w+'vmax;aspect-ratio:1;left:'+d.x+'%;top:'+d.y+'%;'+
+      'background:radial-gradient(closest-side,'+d.c+',transparent 72%);animation-duration:'+d.d+'s;';
+    washes.appendChild(el);
+  });
+
+  /* ── chapter flowers (injected inline SVG) ── */
+  var palettes = {
+    rose:['#e7a9ba','#edbcc9','#e29db0'],
+    lav: ['#c3b1de','#d3c5e8','#b39fd2'],
+    sage:['#aac6a4','#c0d6ba','#9ab894'],
+    gold:['#e4c184','#eed4a4','#d9b06a']
+  };
+  document.querySelectorAll('[data-flower]').forEach(function(slot){
+    var p = palettes[slot.dataset.flower] || palettes.rose;
+    var petals = '';
+    for(var i=0;i<6;i++){
+      petals += '<g class="fm-petal" style="--ra:'+(i*60)+'deg;--td:'+(i*0.09)+'s">'+
+        '<ellipse cx="60" cy="26" rx="11" ry="22" fill="'+p[i%3]+'"/></g>';
+    }
+    slot.innerHTML =
+      '<svg viewBox="0 0 120 110">'+
+      '<path class="fm-stem" d="M60 104 Q58 78 60 46" stroke="#8fae8b" stroke-width="3" fill="none" stroke-linecap="round"/>'+
+      '<g class="fm-leaf"><path d="M60 84 Q44 80 39 67 Q55 69 60 80 Z" fill="#a8c2a2"/></g>'+
+      petals+
+      '<g class="fm-core"><circle cx="60" cy="46" r="8" fill="#cf9f4d"/></g>'+
+      '</svg>';
+  });
+
+  /* ── branch dividers (injected inline SVG) ── */
+  document.querySelectorAll('[data-branch]').forEach(function(slot){
+    slot.innerHTML =
+      '<svg viewBox="0 0 240 36">'+
+      '<path class="br-line" d="M10 22 Q60 8 120 20 Q180 32 230 16" stroke="#9db89a" stroke-width="2" fill="none" stroke-linecap="round"/>'+
+      '<g class="br-leaf l1"><ellipse cx="55" cy="12" rx="7" ry="3.6" fill="#aac6a4" transform="rotate(-26 55 12)"/></g>'+
+      '<g class="br-leaf l2"><ellipse cx="105" cy="22" rx="7" ry="3.6" fill="#c0d6ba" transform="rotate(18 105 22)"/></g>'+
+      '<g class="br-leaf l3"><ellipse cx="155" cy="22" rx="7" ry="3.6" fill="#aac6a4" transform="rotate(-14 155 22)"/></g>'+
+      '<g class="br-leaf l4"><circle cx="200" cy="17" r="4" fill="#e7a9ba"/></g>'+
+      '</svg>';
+  });
+
+  /* ── intro bloom ── */
+  var intro = document.getElementById('intro');
+  var bud = document.getElementById('budWrap');
+  var opened = false;
+  function openGarden(){
+    if(opened) return; opened = true;
+    bud.classList.add('bloomed');
+    setTimeout(function(){
+      intro.classList.add('gone');
+      document.body.classList.remove('locked');
+      startAmbient();
+      spawnButterflies();
+    }, 1900);
+    setTimeout(function(){ intro.style.display = 'none'; }, 3400);
+  }
+  bud.addEventListener('click', openGarden);
+  bud.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' ') openGarden(); });
+
+  /* ── scroll reveal ── */
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, {threshold:.12, rootMargin:'0px 0px -36px 0px'});
+  document.querySelectorAll('.reveal, .branch, .eres-box, #hero').forEach(function(el){ io.observe(el); });
+
+  /* ── progress butterfly ── */
+  var fill = document.getElementById('progressFill');
+  var bee = document.getElementById('progressBee');
+  window.addEventListener('scroll', function(){
+    var h = document.documentElement;
+    var p = h.scrollTop / (h.scrollHeight - h.clientHeight);
+    fill.style.width = (p*100) + '%';
+    bee.style.left = (p*100) + '%';
+  }, {passive:true});
+
+  /* ── ambient petals ── */
+  var petalColors = [
+    'linear-gradient(135deg,#e7a9ba,#f3cdd6)',
+    'linear-gradient(135deg,#c3b1de,#ddd2ec)',
+    'linear-gradient(135deg,#f0bfa0,#f7ddc9)',
+    'linear-gradient(135deg,#aac6a4,#d3e2cf)'
+  ];
+  function spawnAmbPetal(){
+    if(document.hidden || reduced) return;
+    var p = document.createElement('div');
+    p.className = 'amb-petal';
+    var s = 8 + Math.random()*10;
+    p.style.cssText = 'left:'+(Math.random()*100)+'vw;width:'+s+'px;height:'+s+'px;'+
+      'background:'+petalColors[Math.floor(Math.random()*petalColors.length)]+';'+
+      '--sway:'+((Math.random()*16-8))+'vw;--spin:'+(180+Math.random()*420)+'deg;'+
+      'animation-duration:'+(9+Math.random()*8)+'s;';
+    document.body.appendChild(p);
+    setTimeout(function(){ p.remove(); }, 18000);
+  }
+  var ambOn = false;
+  function startAmbient(){
+    if(ambOn) return; ambOn = true;
+    for(var i=0;i<3;i++) setTimeout(spawnAmbPetal, i*1100);
+    setInterval(spawnAmbPetal, 2800);
+  }
+
+  /* ── butterflies ── */
+  function butterflySVG(c1,c2){
+    return '<svg viewBox="0 0 34 34">'+
+      '<g class="bw"><ellipse cx="10" cy="13" rx="9" ry="7" fill="'+c1+'" transform="rotate(-22 10 13)"/>'+
+      '<ellipse cx="24" cy="13" rx="9" ry="7" fill="'+c1+'" transform="rotate(22 24 13)"/>'+
+      '<ellipse cx="11" cy="23" rx="6.5" ry="5" fill="'+c2+'" transform="rotate(-30 11 23)"/>'+
+      '<ellipse cx="23" cy="23" rx="6.5" ry="5" fill="'+c2+'" transform="rotate(30 23 23)"/></g>'+
+      '<rect x="16" y="9" width="2.4" height="18" rx="1.2" fill="#6b5848"/></svg>';
+  }
+  function spawnButterflies(){
+    if(reduced) return;
+    [['rgba(217,138,158,.85)','rgba(243,205,214,.9)'],
+     ['rgba(164,139,196,.85)','rgba(221,210,236,.9)']].forEach(function(c,idx){
+      var b = document.createElement('div');
+      b.className = 'butterfly';
+      b.innerHTML = butterflySVG(c[0],c[1]);
+      document.body.appendChild(b);
+      var t = Math.random()*100 + idx*50;
+      var x = Math.random()*innerWidth, y = Math.random()*innerHeight*0.6 + 40;
+      (function fly(){
+        t += 0.012 + idx*0.003;
+        var tx = innerWidth*0.5 + Math.sin(t*0.7)*innerWidth*0.38;
+        var ty = innerHeight*0.4 + Math.cos(t*0.53)*innerHeight*0.3 + Math.sin(t*2.1)*22;
+        x += (tx-x)*0.012; y += (ty-y)*0.012;
+        var dir = (tx-x) > 0 ? 1 : -1;
+        b.style.transform = 'translate('+x+'px,'+y+'px) scaleX('+dir+') rotate('+Math.sin(t*1.4)*14+'deg)';
+        requestAnimationFrame(fly);
+      })();
+    });
+  }
+
+  /* ── fruit blooms ── */
+  document.querySelectorAll('[data-bloom]').forEach(function(card){
+    card.addEventListener('click', function(){ card.classList.toggle('open'); });
+  });
+
+  /* ── "Eres" rotating words ── */
+  var words = ['hija del Dios Altísimo','amada','escogida','sostenida','cuidada','vista por Dios'];
+  var wordEl = document.getElementById('eresWord');
+  var wi = 0;
+  setInterval(function(){
+    wordEl.classList.add('swap');
+    setTimeout(function(){
+      wi = (wi+1) % words.length;
+      wordEl.textContent = words[wi];
+      wordEl.classList.remove('swap');
+    }, 500);
+  }, 3000);
+
+  /* ── finale rose + petal rain ── */
+  var rose = document.getElementById('roseWrap');
+  var wish = document.getElementById('wish');
+  var hint = document.getElementById('roseHint');
+  var bloomed = false;
+  function bloomRose(){
+    if(bloomed) return; bloomed = true;
+    rose.classList.add('bloomed');
+    hint.classList.add('gone');
+    setTimeout(function(){ wish.classList.add('show'); }, 800);
+    petalRain();
+  }
+  rose.addEventListener('click', bloomRose);
+  rose.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' ') bloomRose(); });
+
+  var canvas = document.getElementById('petalCanvas');
+  var ctx = canvas.getContext('2d');
+  function resize(){ canvas.width = innerWidth; canvas.height = innerHeight; }
+  resize(); window.addEventListener('resize', resize);
+
+  function petalRain(){
+    var cols = ['#e7a9ba','#edbcc9','#c3b1de','#ddd2ec','#f0bfa0','#f3cdd6'];
+    var petals = [];
+    function add(n, burst){
+      for(var i=0;i<n;i++){
+        petals.push({
+          x: burst ? canvas.width/2 + (Math.random()-.5)*120 : Math.random()*canvas.width,
+          y: burst ? canvas.height*0.5 : -20 - Math.random()*80,
+          vx: burst ? (Math.random()-.5)*7 : 0,
+          vy: burst ? -(Math.random()*8+3) : Math.random()*1.2+0.8,
+          rx: 5+Math.random()*6,
+          r: Math.random()*Math.PI*2,
+          vr: (Math.random()-.5)*0.09,
+          ph: Math.random()*Math.PI*2,
+          c: cols[Math.floor(Math.random()*cols.length)],
+          o: .75+Math.random()*.25
+        });
+      }
+    }
+    add(70, true);
+    var spawnEnd = performance.now() + 11000;
+    var spawner = setInterval(function(){
+      if(performance.now() > spawnEnd){ clearInterval(spawner); return; }
+      add(4, false);
+    }, 300);
+    var t = 0;
+    (function tick(){
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+      t += 0.016;
+      var alive = false;
+      petals.forEach(function(p){
+        if(p.y > canvas.height + 30) return;
+        alive = true;
+        p.vy = Math.min(p.vy + 0.06, 1.9);
+        p.x += p.vx + Math.sin(t*1.6 + p.ph)*0.8;
+        p.vx *= 0.985;
+        p.y += p.vy;
+        p.r += p.vr;
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.r);
+        ctx.globalAlpha = p.o;
+        ctx.fillStyle = p.c;
+        ctx.beginPath();
+        ctx.ellipse(0, 0, p.rx, p.rx*0.55, 0, 0, Math.PI*2);
+        ctx.fill();
+        ctx.restore();
+      });
+      if(alive || performance.now() < spawnEnd) requestAnimationFrame(tick);
+      else ctx.clearRect(0,0,canvas.width,canvas.height);
+    })();
+  }
+})();
+</script>
+</body>
+</html>
