@@ -868,13 +868,14 @@ footer{
         !el.classList.contains('rose-hint') &&
         !el.classList.contains('sig-pre');
     });
-    var p = ps[1];
-    if(!p || reduced) return;
-    p.classList.add('write');
-    var words = p.textContent.trim().split(/\s+/);
-    p.innerHTML = words.map(function(w, i){
-      return '<span class="w" style="transition-delay:' + (i*38) + 'ms">' + w + '</span>';
-    }).join(' ');
+    ps.slice(1).forEach(function(p){
+      if(reduced || p.querySelector('em')) return;
+      p.classList.add('write');
+      var words = p.textContent.trim().split(/\s+/);
+      p.innerHTML = words.map(function(w, i){
+        return '<span class="w" style="transition-delay:' + (i*38) + 'ms">' + w + '</span>';
+      }).join(' ');
+    });
   });
 
   /* ── mini chapter flowers ── */
