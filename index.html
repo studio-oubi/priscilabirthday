@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#fdf9f2">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Pinyon+Script&family=Dancing+Script:wght@500;600&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Pinyon+Script&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
 <style>
 :root{
   --paper:#fdf9f2;
@@ -387,12 +387,13 @@ p.lead::first-letter{
   padding:.08em .12em 0 0;color:var(--rose-deep);
 }
 
-/* handwritten second paragraphs */
-p.hand{
-  font-family:'Dancing Script',cursive;font-weight:500;
-  font-size:1.32em;line-height:1.62;
-  color:#8a5666;
+/* second paragraphs: text writes itself in as you read */
+p.write .w{
+  opacity:0;filter:blur(3px);transform:translateY(.18em);
+  display:inline-block;
+  transition:opacity .55s ease,filter .55s ease,transform .55s ease;
 }
+p.write.in .w{opacity:1;filter:none;transform:none}
 
 /* branch dividers */
 .branch{display:flex;justify-content:center;padding:6px 0}
@@ -859,7 +860,7 @@ footer{
   'use strict';
   var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* ── handwritten second paragraphs ── */
+  /* ── second paragraphs write themselves in, word by word ── */
   document.querySelectorAll('.section').forEach(function(sec){
     var ps = Array.prototype.filter.call(sec.children, function(el){
       return el.tagName === 'P' &&
@@ -867,7 +868,13 @@ footer{
         !el.classList.contains('rose-hint') &&
         !el.classList.contains('sig-pre');
     });
-    if(ps[1]) ps[1].classList.add('hand');
+    var p = ps[1];
+    if(!p || reduced) return;
+    p.classList.add('write');
+    var words = p.textContent.trim().split(/\s+/);
+    p.innerHTML = words.map(function(w, i){
+      return '<span class="w" style="transition-delay:' + (i*38) + 'ms">' + w + '</span>';
+    }).join(' ');
   });
 
   /* ── mini chapter flowers ── */
